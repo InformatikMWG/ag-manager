@@ -6,8 +6,9 @@ import (
 	"time"
 )
 
+// Test HTTP request handler, sleeps the process for a certain amount of time.
 func sleepRequestHandler(w http.ResponseWriter, r *http.Request, jobQueue chan Runner) {
-	// Make sure we can only be called with an HTTP POST sleepRequest.
+	// Make sure we can only be called with an HTTP POST request.
 	if r.Method != "POST" {
 		w.Header().Set("Allow", "POST")
 		w.WriteHeader(http.StatusMethodNotAllowed)

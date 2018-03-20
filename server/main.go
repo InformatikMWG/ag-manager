@@ -16,8 +16,8 @@ func main() {
 
 	jobQueue := make(chan Runner, *maxQueueSize)
 
-	dispatcher := NewDispatcher(jobQueue, *maxWorkers)
-	dispatcher.Run()
+	wm := NewWorkerManager(jobQueue, *maxWorkers)
+	wm.Run()
 
 	// Test work distribution system by pausing each worker for x seconds specified by request.
 	http.HandleFunc("/work", func(w http.ResponseWriter, r *http.Request) {

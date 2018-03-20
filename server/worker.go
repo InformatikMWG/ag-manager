@@ -1,89 +1,40 @@
 package main
 
-import (
-	"log"
-)
-
-// Runner is the interface that wraps the Run() method.
+// Runner is the interface that wraps the run() method.
 type Runner interface {
 	run() error
 }
 
-// newWorker creates a new worker
-func newWorker(workerPool chan chan Runner) worker {
-	return worker{
-		workerPool: workerPool,
-		jobQueue:   make(chan Runner),
-		quitChan:   make(chan bool),
-	}
-}
-
-// worker holds the attributes to control behaviour of workers.
-type worker struct {
-	jobQueue   chan Runner
-	workerPool chan chan Runner
-	quitChan   chan bool
-}
-
-func (w worker) start() {
+// newWorker creates a new worker.
+func newWorker(jobQueue chan Runner) {
 	go func() {
 		for {
-			w.workerPool <- w.jobQueue
-
 			select {
-			case Runner := <-w.jobQueue:
-				if err := Runner.run(); err != nil {
-					log.Printf("Error running Runner: %s\n", err.Error())
-				}
-			case <-w.quitChan:
-				return
+			case job := <-jobQueue:
+				job.run()
 			}
 		}
 	}()
 }
 
-func (w worker) stop() {
-	go func() {
-		w.quitChan <- true
-	}()
-}
-
-// NewDispatcher creates a new work dispatcher.
-func NewDispatcher(jobQueue chan Runner, maxWorkers int) *Dispatcher {
-	workerPool := make(chan chan Runner, maxWorkers)
-
-	return &Dispatcher{
+// NewWorkerManager creates a new work dispatcher.
+func NewWorkerManager(jobQueue chan Runner, maxWorkers int) *WorkerManager {
+	return &WorkerManager{
 		jobQueue:   jobQueue,
 		maxWorkers: maxWorkers,
-		workerPool: workerPool,
 	}
 }
 
-// Dispatcher manages workers and distributes work.
-type Dispatcher struct {
-	workerPool chan chan Runner
+// WorkerManager distributes work and manages parallel workers.
+type WorkerManager struct {
 	maxWorkers int
 	jobQueue   chan Runner
 }
 
-// Run initializes the dispatcher and starts it.
-func (d *Dispatcher) Run() {
+// Run initializes the worker manager and starts it.
+func (d *WorkerManager) Run() {
+	// Create and start workers.
 	for i := 0; i < d.maxWorkers; i++ {
-		worker := newWorker(d.workerPool)
-		worker.start()
-	}
-
-	go d.dispatch()
-}
-
-func (d *Dispatcher) dispatch() {
-	for {
-		select {
-		case Runner := <-d.jobQueue:
-			go func() {
-				workerJobQueue := <-d.workerPool
-				workerJobQueue <- Runner
-			}()
-		}
+		newWorker(d.jobQueue)
 	}
 }
