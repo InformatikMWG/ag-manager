@@ -1,68 +1,56 @@
 package main
 
-import(
-"database/sql"
-"log"
+import (
+	"database/sql"
 )
 
-const TableName_Students = "students"
-const TableName_Assignments = "assignments"
-const TableName_Projects = "projects"
+const tableNameStudents = "students"
+const tableNameAssignments = "assignments"
+const tableNameProjects = "projects"
 
-func openDatabase()*sql.DB {
+func (c *Connection) Open() {
 	//Opening a Connection to a database
-	db, err := sql.Open("mysql","") //Depending on with database is going to be used
-	if err != nil {
-		log.Fatal(err)
-		return nil
-	}
-	//A Pointer to the database
-	return db;
+	db, err := sql.Open("mysql", "") //Depending on with database is going to be used
+	Check(err, true)
+	c.database = db
 }
 
+type Connection struct {
+	database *sql.DB
+}
 
-func CloseDatabase(db *sql.DB){
+func (c *Connection) Close() {
 	//Close the Connection to the database
-	db.Close()	
+	c.database.Close()
 }
 
-func addAssignment(student_id int, project_id int, db *sql.DB)bool {
+func (c *Connection) addAssignment(student_id int, project_id int) bool {
 	//Add the Assignment to the table via the databseconnection
-	_, err := db.Exec("INSERT INTO "+ TableName_Assignments +" VALUES("+string(student_id)+","+string(project_id)+");")
-	if err != nil {
-		return false
-	}
-	return true	
+	_, err := c.database.Exec("INSERT INTO " + tableNameAssignments + " VALUES(" + string(student_id) + "," + string(project_id) + ");")
+	Check(err, true)
+	return true
 }
 
-func removeAssignment(student_id int, project_id int, db *sql.DB)bool {
+func (c *Connection) removeAssignment(student_id int, project_id int) bool {
 	//Delete the Assignment in the table via the databseconnection
-	_, err := db.Exec("DELDETE FROM " + TableName_Assignments + " WHERE student_id = " + string(student_id) + " AND project_id = " + string(project_id) + ";")
-	if err != nil {
-		return false
-	}
-	return true 
+	_, err := c.database.Exec("DELDETE FROM " + tableNameAssignments + " WHERE student_id = " + string(student_id) + " AND project_id = " + string(project_id) + ";")
+	Check(err, true)
+	return true
 }
 
-func getAssignments(student_id int, db *sql.DB)string {
+func (c *Connection) getAssignments(student_id int) string {
 	//Need to know, what coloums should be needed
-	res, err:= db.Query("SELECT * FROM " + TableName_Assignments + "," + TableName_Projects + " WHERE " + TableName_Assignments + ".project_id = " + TableName_Projects + ".project_id AND student_id = " + string(student_id) + ";")
-	
-	if err != nil {
-		log.Fatal(err)
-	}
+	res, err := c.database.Query("SELECT * FROM " + tableNameAssignments + "," + tableNameProjects + " WHERE " + tableNameAssignments + ".project_id = " + tableNameProjects + ".project_id AND student_id = " + string(student_id) + ";")
+	Check(err, true)
+
 	defer res.Close()
 	for res.Next() {
 		//Read out symbols, that are needed
 		err := res.Scan()
-		if err != nil {
-			log.Fatal(err)
-			return
-		}
+		Check(err, true)
 	}
-	err = rows.Err()
-	if err != nil {
-		log.Fatal(err)
-		return
-	}	
+	err = res.Err()
+	Check(err, true)
+
+	return ""
 }
