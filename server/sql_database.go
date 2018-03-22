@@ -44,7 +44,7 @@ func removeAssignment(student_id int, project_id int, db *sql.DB)bool {
 	return true 
 }
 
-func getAssignments(student_id int, db *sql.DB)string[] {
+func getAssignments(student_id int, db *sql.DB)string {
 	//Need to know, what coloums should be needed
 	res, err:= db.Query("SELECT * FROM " + TableName_Assignments + "," + TableName_Projects + " WHERE " + TableName_Assignments + ".project_id = " + TableName_Projects + ".project_id AND student_id = " + string(student_id) + ";")
 	
