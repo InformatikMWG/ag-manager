@@ -19,10 +19,7 @@ func newWorker(jobQueue chan Runner) {
 
 // NewWorkerManager creates a new work dispatcher.
 func NewWorkerManager(jobQueue chan Runner, maxWorkers int) *WorkerManager {
-	return &WorkerManager{
-		jobQueue:   jobQueue,
-		maxWorkers: maxWorkers,
-	}
+	return &WorkerManager{maxWorkers, jobQueue}
 }
 
 // WorkerManager distributes work and manages parallel workers.
