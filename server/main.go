@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 	"net/http"
 )
 
@@ -23,5 +22,5 @@ func main() {
 	http.HandleFunc("/work", func(w http.ResponseWriter, r *http.Request) {
 		sleepRequestHandler(w, r, jobQueue)
 	})
-	log.Fatal(http.ListenAndServe(":"+*port, nil))
+	Check(http.ListenAndServe(":"+*port, nil), true)
 }

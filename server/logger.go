@@ -30,8 +30,8 @@ func logRaw(a ...interface{}) (int, error) {
 	return fmt.Fprintln(w, a...)
 }
 
-// PrintLn prints a line to Log output.
-func PrintLn(a ...interface{}) (int, error) {
+// Log prints a line to Log output.
+func Log(a ...interface{}) (int, error) {
 	return logRaw(append([]interface{}{getLogPrefix(2)}, a...)...)
 }
 
