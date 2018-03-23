@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"time"
+	_ "ag-manager/go-sql-driver/mysql"
 )
 
 const tableNameStudents = "Students"
@@ -19,6 +20,7 @@ type Connection struct {
 
 type Project struct
 {
+	id int
 	name string
 	description string
 	costs string
@@ -29,7 +31,7 @@ type Project struct
 
 
 func (c *Connection) Open() {
-	//Opening a Connection to a database
+	//Opening a Connection to a database (go get github.com/minus5/gofreetds)
 	db, err := sql.Open("mysql", "parseTime=true") //Depending on with database is going to be used
 	Check(err, true)
 	c.database = db
@@ -73,8 +75,25 @@ func (c *Connection) MayAssign(studentId int, projectId int) bool {
 }
 
 func (c *Connection) GetProjectsForStudent(studentId int) []Project {
-	//TODO: Return all Projects that can be chosen by the student
-	return nil
+	var projects[]Project
+	res, err := c.database.Query("SELECT DISTINCT "+ tableNameProjects +".id, name, discription, costs, location, coach, superviser FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE "+ tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid = " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid AND " +  tableNameStudentsInGroups + ".sid = " + string(studentId) + "AND isBlacklist = true;")
+	Check(err, true)
+	for res.Next(){
+		var project Project
+		err = res.Scan(&project.id, &project.name, &project.description, &project.costs, &project.location, &project.coach, &project.superviser)
+		projects = append(projects,project)
+	}
+	Check(err, true)
+
+	res, err = c.database.Query("SELECT DISTINCT"+ tableNameProjects +".id, name, discription, costs, location, coach, superviser FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE "+ tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid <> " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid AND " +  tableNameStudentsInGroups + ".sid = " + string(studentId) + "AND isBlacklist = false;")
+	Check(err, true)
+	for res.Next(){
+		var project Project
+		err = res.Scan(&project.id, &project.name, &project.description, &project.costs, &project.location, &project.coach, &project.superviser)
+		projects = append(projects,project)
+	}
+	Check(err, true)
+	return projects
 }
 
 
