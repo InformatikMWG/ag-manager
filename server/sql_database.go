@@ -30,9 +30,10 @@ type Project struct
 }
 
 
-func (c *Connection) Open() {
-	//Opening a Connection to a database (go get github.com/minus5/gofreetds)
-	db, err := sql.Open("mysql", "parseTime=true") //Depending on with database is going to be used
+func (c *Connection) Open(username string, password string) {
+	//Opening a Connection to a database 
+	//[username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]
+	db, err := sql.Open("mysql", username + ":" + password +"@protocol(address)/dbname?parseTime=true") //Depending on with database is going to be used
 	Check(err, true)
 	c.database = db
 }
