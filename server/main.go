@@ -18,6 +18,8 @@ func main() {
 	wm := NewWorkerManager(jobQueue, *maxWorkers)
 	wm.Run()
 
+	//tm := NewTemplateManager("a","b","c")//TemplateManager
+	
 	// Test work distribution system by pausing each worker for x seconds specified by request.
 	http.HandleFunc("/work", func(w http.ResponseWriter, r *http.Request) {
 		sleepRequestHandler(w, r, jobQueue)

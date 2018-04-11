@@ -18,8 +18,7 @@ type Connection struct {
 	database *sql.DB
 }
 
-type Project struct
-{
+type Project struct{
 	id int
 	name string
 	description string
@@ -43,18 +42,16 @@ func (c *Connection) Close() {
 	c.database.Close()
 }
 
-func (c *Connection) AddAssignment(studentId int, projectId int, time time.Time, state int) bool {
+func (c *Connection) AddAssignment(studentId int, projectId int, time time.Time, state int) error {
 	//Add the Assignment to the table via the databseconnection
 	_, err := c.database.Exec("INSERT INTO " + tableNameAssignments + " VALUES(" + string(studentId) + "," + string(projectId) + ", 0," + string(state) + ");")
-	Check(err, true)
-	return true
+	return err
 }
 
-func (c *Connection) RemoveAssignment(studentId int, projectId int) bool {
+func (c *Connection) RemoveAssignment(studentId int, projectId int) error {
 	//Delete the Assignment in the table via the databseconnection
 	_, err := c.database.Exec("DELETE FROM " + tableNameAssignments + " WHERE student_id = " + string(studentId) + " AND project_id = " + string(projectId) + ";")
-	Check(err, true)
-	return true
+	return err
 }
 
 func (c *Connection) MayAssign(studentId int, projectId int) bool {
