@@ -26,13 +26,14 @@ type Project struct{
 	location string
 	coach string
 	superviser string
+	maxNrStudents int
 }
 
 
-func (c *Connection) Open(username string, password string) {
+func (c *Connection) Open(username string, password string, dbname string, ip string) {
 	//Opening a Connection to a database 
 	//[username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]
-	db, err := sql.Open("mysql", username + ":" + password +"@protocol(address)/dbname?parseTime=true") //Depending on with database is going to be used
+	db, err := sql.Open("mysql", username + ":" + password +"@protocol("+ip+")/" + dbname +"?parseTime=true") //Depending on with database is going to be used
 	Check(err, true)
 	c.database = db
 }
@@ -42,7 +43,7 @@ func (c *Connection) Close() {
 	c.database.Close()
 }
 
-func (c *Connection) AddAssignment(studentId int, projectId int, time time.Time, state int) error {
+func (c *Connection) AddAssignment(studentId int, projectId int, state int) error {
 	//Add the Assignment to the table via the databseconnection
 	_, err := c.database.Exec("INSERT INTO " + tableNameAssignments + " VALUES(" + string(studentId) + "," + string(projectId) + ", 0," + string(state) + ");")
 	return err
@@ -68,27 +69,53 @@ func (c *Connection) MayAssign(studentId int, projectId int) bool {
 	res, err  = c.database.Query("SELECT COUNT(*) FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE " + tableNameProjects + ".id = " + string(projectId) + " AND " + tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid <> " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid AND " +  tableNameStudentsInGroups + ".sid = " + string(studentId) + ";")
 	}
 	Check(err, true)
+	assign := checkCount(res) > 0
+	if !assign{
+		return false
+	}
+	res, err  = c.database.Query("SELECT COUNT("+ tableNameStudents+".id) FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE " + tableNameProjects + ".id = " + string(projectId) + " AND " + tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid = " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid;")
+	Check(err,true)
 	number := checkCount(res)
-	return (number > 0)
-}
+	res, err := c.database.Query("SELECT maxNrStudents FROM " + tableNameProjects + "WHERE id = " + string(projectId) + ";")
+	Check(err,true)
+	numberMax := checkCount(res)
+	return number < numberMax
 
 func (c *Connection) GetProjectsForStudent(studentId int) []Project {
 	var projects[]Project
-	res, err := c.database.Query("SELECT DISTINCT "+ tableNameProjects +".id, name, discription, costs, location, coach, superviser FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE "+ tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid = " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid AND " +  tableNameStudentsInGroups + ".sid = " + string(studentId) + "AND isBlacklist = true;")
+	res, err := c.database.Query("SELECT DISTINCT "+ tableNameProjects +".id, name, discription, costs, location, coach, superviser, maxNrStudents FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE "+ tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid = " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid AND " +  tableNameStudentsInGroups + ".sid = " + string(studentId) + "AND isBlacklist = true;")
 	Check(err, true)
 	for res.Next(){
 		var project Project
-		err = res.Scan(&project.id, &project.name, &project.description, &project.costs, &project.location, &project.coach, &project.superviser)
-		projects = append(projects,project)
+		err = res.Scan(&project.id, &project.name, &project.description, &project.costs, &project.location, &project.coach, &project.superviser, &project.maxNrStudents)
+		
+		res, err  = c.database.Query("SELECT COUNT("+ tableNameStudents+".id) FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE " + tableNameProjects + ".id = " + string(project.id) + " AND " + tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid = " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid;")
+		Check(err,true)
+		number := checkCount(res)
+		res, err := c.database.Query("SELECT maxNrStudents FROM " + tableNameProjects + "WHERE id = " + string(project.id) + ";")
+		Check(err,true)
+		numberMax := checkCount(res)
+		if number < numberMax{
+			projects = append(projects,project)
+			}
 	}
 	Check(err, true)
 
-	res, err = c.database.Query("SELECT DISTINCT"+ tableNameProjects +".id, name, discription, costs, location, coach, superviser FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE "+ tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid <> " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid AND " +  tableNameStudentsInGroups + ".sid = " + string(studentId) + "AND isBlacklist = false;")
+	res, err = c.database.Query("SELECT DISTINCT"+ tableNameProjects +".id, name, discription, costs, location, coach, superviser, maxNrStudents FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE "+ tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid <> " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid AND " +  tableNameStudentsInGroups + ".sid = " + string(studentId) + "AND isBlacklist = false;")
 	Check(err, true)
 	for res.Next(){
 		var project Project
-		err = res.Scan(&project.id, &project.name, &project.description, &project.costs, &project.location, &project.coach, &project.superviser)
-		projects = append(projects,project)
+		err = res.Scan(&project.id, &project.name, &project.description, &project.costs, &project.location, &project.coach, &project.superviser, &project.maxNrStudents)
+		
+		res, err  = c.database.Query("SELECT COUNT("+ tableNameStudents+".id) FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE " + tableNameProjects + ".id = " + string(project.id) + " AND " + tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid = " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid;")
+		Check(err,true)
+		number := checkCount(res)
+		res, err := c.database.Query("SELECT maxNrStudents FROM " + tableNameProjects + "WHERE id = " + string(project.id) + ";")
+		Check(err,true)
+		numberMax := checkCount(res)
+		if number < numberMax{
+			projects = append(projects,project)
+			}
 	}
 	Check(err, true)
 	return projects

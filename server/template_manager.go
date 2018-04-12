@@ -9,8 +9,7 @@ type template_manager struct{
 	templates *template.Template
 }
 
-type Page struct { //Has to be adjusted
-	title string
+type Page struct { //TODO: Adjust for project parsing
 	body string
 }
 
@@ -19,7 +18,7 @@ func NewTemplateManager(filename1 string, filename2 string, filename3 string) *t
 	return &tm
 }
 
-func (tm *template_manager) displayPage(w http.ResponseWriter, templateName string, pageInformation *Page){
+func (tm *template_manager) DisplayPage(w http.ResponseWriter, templateName string, pageInformation *Page){
 	err := tm.templates.ExecuteTemplate(w, templateName+".html", pageInformation)
 	
 	if err != nil {
