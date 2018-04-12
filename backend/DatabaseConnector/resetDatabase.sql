@@ -11,7 +11,8 @@ CREATE TABLE Students (
   id         VARCHAR(255) NOT NULL PRIMARY KEY,
   first_name VARCHAR(255),
   last_name  VARCHAR(255),
-  password   VARCHAR(255)
+  password   VARCHAR(255),
+  classname  VARCHAR(255)
 ) ENGINE=InnoDB;
 
 
@@ -27,8 +28,8 @@ CREATE TABLE Projects (
   costs       VARCHAR(255),
   location    VARCHAR(255),
   coach       VARCHAR(255),
-  supervisor  VARCHAR(255)
-
+  supervisor  VARCHAR(255),
+  maxNrStudents INT
 ) ENGINE=InnoDB;
 
 
