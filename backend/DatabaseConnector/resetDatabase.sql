@@ -16,8 +16,8 @@ CREATE TABLE Students (
 ) ENGINE=InnoDB;
 
 
-INSERT INTO Students (id, first_name, last_name, password)
-VALUES             ('AR1928', 'Adam', 'Riese', '');
+INSERT INTO Students (id, first_name, last_name, password, classname)
+VALUES             ('AR1928', 'Adam', 'Riese', '', '6C');
 
 
 
@@ -33,9 +33,8 @@ CREATE TABLE Projects (
 ) ENGINE=InnoDB;
 
 
-INSERT INTO Projects (name, description, costs, location, coach)
-VALUES             ('Go-Workshop', 'Lerne Go zu spielen!', '0 Euro', '2.18',
-'Hr. Sedol');
+INSERT INTO Projects (name, description, costs, location, coach, maxNrStudents)
+VALUES             ('Go-Workshop', 'Lerne Go zu spielen!', '0 Euro', '2.18', 'Hr. Sedol', 20);
 
 
 CREATE TABLE Groups (
