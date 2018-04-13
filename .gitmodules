@@ -1,0 +1,2 @@
+[submodule "go-sql-driver/mysql"]
+	url = https://github.com/go-sql-driver/mysql
