@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"time"
 	_ "ag-manager/go-sql-driver/mysql"
 )
 
@@ -30,10 +29,10 @@ type Project struct{
 }
 
 
-func (c *Connection) Open(username string, password string, dbname string, ip string) {
+func (c *Connection) Open(username string, password string, dbname string, adress string) {
 	//Opening a Connection to a database 
 	//[username[:password]@][protocol[(address)]]/dbname[?param1=value1&...&paramN=valueN]
-	db, err := sql.Open("mysql", username + ":" + password +"@protocol("+ip+")/" + dbname +"?parseTime=true") //Depending on with database is going to be used
+	db, err := sql.Open("mysql", username + ":" + password +"@tcp("+adress+")/" + dbname +"?parseTime=true") //Depending on with database is going to be used
 	Check(err, true)
 	c.database = db
 }
@@ -76,10 +75,11 @@ func (c *Connection) MayAssign(studentId int, projectId int) bool {
 	res, err  = c.database.Query("SELECT COUNT("+ tableNameStudents+".id) FROM " + tableNameProjects + "," + tableNameGroups + "," + tableNameStudentsInGroups + "," + tableNameFilter + "," + "WHERE " + tableNameProjects + ".id = " + string(projectId) + " AND " + tableNameProjects +".id = " +  tableNameFilter + ".pid AND " + tableNameFilter + ".gid = " + tableNameGroups + ".id AND " +tableNameGroups + ".id = " + tableNameStudentsInGroups + ".gid;")
 	Check(err,true)
 	number := checkCount(res)
-	res, err := c.database.Query("SELECT maxNrStudents FROM " + tableNameProjects + "WHERE id = " + string(projectId) + ";")
+	res, err = c.database.Query("SELECT maxNrStudents FROM " + tableNameProjects + "WHERE id = " + string(projectId) + ";")
 	Check(err,true)
 	numberMax := checkCount(res)
 	return number < numberMax
+}
 
 func (c *Connection) GetProjectsForStudent(studentId int) []Project {
 	var projects[]Project

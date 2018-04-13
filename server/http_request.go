@@ -1,16 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
-	"time"
+	"strconv"
 )
 
-type Request int
+type RequestTyp int
 
 const(
-	loginRequest Request = 0
-	indexRequest Request = 1
+	loginRequestTyp RequestTyp = 0
+	indexRequestTyp RequestTyp = 1
 )
 
 // Test HTTP request handler, sleeps the process for a certain amount of time.
@@ -21,15 +20,18 @@ func RequestHandler(w http.ResponseWriter, r *http.Request, jobQueue chan Runner
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-	var typ Request
-	typ := r.FromValue("typ")
 	
-	switch typ {
-	case loginRequest:	
+	typ, err := strconv.Atoi(r.FormValue("typ"))
+	Check(err, true)
+	typR := RequestTyp(typ)
+	studentId := r.FormValue("studentId")
+
+	switch typR {
+	case loginRequestTyp:	
 		task := &loginRequest{studentId}
 		jobQueue <- task
 		break
-	case indexRequest:
+	case indexRequestTyp:
 		break
 	default:
 		break
