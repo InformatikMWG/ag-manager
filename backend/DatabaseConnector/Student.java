@@ -12,6 +12,10 @@ public class Student
     private String lastname;
     private String klasse;
 
+    public static Student getStudent(int sid)  {
+        return null;
+    }
+    
     /**
      * Konstruktor für Objekte der Klasse Student
      */
