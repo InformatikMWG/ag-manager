@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 /**
  * Beschreiben Sie hier die Klasse Student.
  * 
@@ -44,6 +44,12 @@ public class Student
         
     }
     
+    public ArrayList<Project> getProjects() {
+        return null;
+    }
     
+    public ArrayList<Project_Slot> getProject_Slots() {
+        return null;
+    }
 
 }
