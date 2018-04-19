@@ -1,5 +1,7 @@
-import java.util.ArrayList;
 import java.sql.*;
+import java.util.*;
+import java.io.*;
+
 /**
  * Beschreiben Sie hier die Klasse Student.
  * 
@@ -9,25 +11,45 @@ import java.sql.*;
 public class Student
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
+    private String sid;
     private String firstname;
     private String lastname;
-    private String klasse;
-    private String sid;
-    private DatabaseConnection db;
-    public static Student getStudent(int sid)  {
-        return null;
-    }
+    private String classname;
 
-    /**
+
+   /**
      * Konstruktor für Objekte der Klasse Student
      */
-    public Student(String fn, String ln, String k){
-        db = DatabaseConnection.getDatabaseConnection();
-       
+    public Student(String fn, String ln, String c, String sid){
+
         firstname = fn;
         lastname = ln;
-        klasse = k;
+        classname = c;
+        this.sid = sid;
 
+    }
+
+    public static Student getStudent(String sid) {
+        String firstname = null;
+        String lastname = null;
+        String classname = null;
+        DatabaseConnection db;
+        db = DatabaseConnection.getDatabaseConnection();
+        String sqlCommand = "SELECT * FROM Students WHERE id = '" + sid + "';";
+        ResultSet resultSet = db.executeSQLCommand(sqlCommand);
+
+        try {
+            while(resultSet.next()) {
+                firstname = resultSet.getString("first_name");
+                lastname  = resultSet.getString("last_name" );
+                classname = resultSet.getString("classname" );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Student(firstname, lastname, classname, sid);
+
+        
     }
 
     public String getFirstName() {
@@ -40,18 +62,28 @@ public class Student
 
     }
 
-    public String getKlasse() {
-        return klasse;
 
-    }
 
     public void printStudent() {
-        System.out.println(firstname + ", " + lastname + ", " + klasse);
+        System.out.println(firstname + ", " + lastname + ", " + classname);
 
     }
+
+
+    public String getClassName() {
+        return classname;
+
+    }
+    
+    public String getSid() {
+        return sid;
+
+    }
+
 
     public ArrayList<Project> getProjects() {
         String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = " + sid + " ) ;";
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
         ResultSet resultSet = db.executeSQLCommand(sqlCommand);
         ArrayList<Project> projects = new ArrayList<Project>();
 
@@ -66,7 +98,7 @@ public class Student
                 String supervisor = resultSet.getString("supervisor");
                 String maxNrStudents = resultSet.getString("maxNrStudents");
 
-                projects.add( new Project(id, name, description, costs, location, coach, supervisor, maxNrStudents));
+                projects.add( new Project(id, name, description, costs, location, coach, supervisor, Integer.parseInt(maxNrStudents)));
             }
         } catch (Exception e) {
             e.printStackTrace();
