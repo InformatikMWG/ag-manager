@@ -15,12 +15,6 @@ CREATE TABLE Students (
   classname  VARCHAR(255)
 ) ENGINE=InnoDB;
 
-
-INSERT INTO Students (id, first_name, last_name, password, classname)
-VALUES             ('AR1928', 'Adam', 'Riese', '', '6C');
-
-
-
 CREATE TABLE Projects (
   id          INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name        VARCHAR(255),
@@ -33,17 +27,10 @@ CREATE TABLE Projects (
 ) ENGINE=InnoDB;
 
 
-INSERT INTO Projects (name, description, costs, location, coach, maxNrStudents)
-VALUES             ('Go-Workshop', 'Lerne Go zu spielen!', '0 Euro', '2.18', 'Hr. Sedol', 20);
-
-
 CREATE TABLE Groups (
   id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name      VARCHAR(255)
 ) ENGINE=InnoDB;
-
-INSERT INTO Groups(name)
-VALUES ('Q12');
 
 
 CREATE TABLE Project_slots (
