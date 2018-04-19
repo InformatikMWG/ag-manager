@@ -4,8 +4,20 @@ import java.util.*;
 import java.io.*;
 
 public class Project {
-
     
+    int id;
+    String name; 
+    String description;
+    double costs;
+    String location;
+    String coach;
+    String supervisor;
+    int maxNrStudents;
+    
+    public Project() {
+
+    }
+
     public static void printAllStudentsInProject(int pid) {
         ArrayList<Student> students = getStudentsInProject(pid);
         for (Student s: students) s.printStudent();
@@ -30,7 +42,7 @@ public class Project {
 
         String    sqlCommand2 = "SELECT * FROM Students;";
         ResultSet resultSet2  = db.executeSQLCommand(sqlCommand2);
-        
+
         try{
             while(resultSet2.next()) {
                 String sid = resultSet2.getString("id");
@@ -45,19 +57,9 @@ public class Project {
 
         }
         return project;
+    }
 
-
-{    
-    int id;
-    String name; 
-    String description;
-    double costs;
-    String location;
-    String coach;
-    String supervisor;
-    int maxNrStudents;
-
-    public Project(int pid, int id , String name, String description, double costs, String location, String coach, String supervisor, int maxNrStudents)  {
+    public Project(int pid, int id , String name, String description, double costs, String location, String coach, String supervisor, int maxNrStudents) {
         id = this.id;
         name = this.name; 
         description = this.description;
@@ -66,8 +68,8 @@ public class Project {
         coach = this.coach;
         supervisor = this.supervisor;
         maxNrStudents = this.maxNrStudents;
-
     }
+
 
     public ArrayList<Project_Slot> getProject_Slots() {
 
