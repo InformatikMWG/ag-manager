@@ -16,8 +16,7 @@ public class Student
     private String lastname;
     private String classname;
 
-
-   /**
+    /**
      * Konstruktor für Objekte der Klasse Student
      */
     public Student(String fn, String ln, String c, String sid){
@@ -26,7 +25,6 @@ public class Student
         lastname = ln;
         classname = c;
         this.sid = sid;
-
     }
 
     public static Student getStudent(String sid) {
@@ -49,37 +47,27 @@ public class Student
         }
         return new Student(firstname, lastname, classname, sid);
 
-        
+    }
+
+    public String getSid() {
+        return sid;
     }
 
     public String getFirstName() {
         return firstname;
-
     }
 
     public String getLastName() {
         return lastname;
-
     }
-
-
-
-    public void printStudent() {
-        System.out.println(firstname + ", " + lastname + ", " + classname);
-
-    }
-
 
     public String getClassName() {
         return classname;
-
-    }
-    
-    public String getSid() {
-        return sid;
-
     }
 
+    public void printStudent() {
+        System.out.println(sid + "," + firstname + ", " + lastname + ", " + classname);
+    }
 
     public ArrayList<Project> getProjects() {
         String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = '" + sid + "' ) ;";
@@ -97,9 +85,9 @@ public class Student
                 String coach = resultSet.getString("coach");
                 String supervisor = resultSet.getString("supervisor");
                 String maxNrStudents = resultSet.getString("maxNrStudents");
-                
+
                 Project p = new Project(id, name, description, costs, location, coach, supervisor, Integer.parseInt(maxNrStudents));
-                
+
                 projects.add(p);
             }
         } catch (Exception e) {
