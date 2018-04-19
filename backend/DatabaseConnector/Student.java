@@ -19,8 +19,7 @@ public class Student
     /**
      * Konstruktor für Objekte der Klasse Student
      */
-    public Student(String fn, String ln, String c, String sid){
-
+    public Student(String fn, String ln, String c, String sid) {
         firstname = fn;
         lastname = ln;
         classname = c;
@@ -45,8 +44,8 @@ public class Student
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         return new Student(firstname, lastname, classname, sid);
-
     }
 
     public String getSid() {
