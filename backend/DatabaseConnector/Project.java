@@ -4,14 +4,14 @@ import java.util.*;
 import java.io.*;
 
 public class Project {
-    int id;
-    String name; 
-    String description;
-    String costs;
-    String location;
-    String coach;
-    String supervisor;
-    int maxNrStudents;
+    private int id;
+    private String name;
+    private String description;
+    private String costs;
+    private String location;
+    private String coach;
+    private String supervisor;
+    private int maxNrStudents;
 
     public Project(int id, String name, String description, String costs, String location, String coach, String supervisor, int maxNrStudents) {
         this.id = id;
