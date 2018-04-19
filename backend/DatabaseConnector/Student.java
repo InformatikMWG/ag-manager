@@ -82,7 +82,7 @@ public class Student
 
 
     public ArrayList<Project> getProjects() {
-        String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = " + sid + " ) ;";
+        String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = '" + sid + "' ) ;";
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
         ResultSet resultSet = db.executeSQLCommand(sqlCommand);
         ArrayList<Project> projects = new ArrayList<Project>();
@@ -97,8 +97,10 @@ public class Student
                 String coach = resultSet.getString("coach");
                 String supervisor = resultSet.getString("supervisor");
                 String maxNrStudents = resultSet.getString("maxNrStudents");
-
-                projects.add( new Project(id, name, description, costs, location, coach, supervisor, Integer.parseInt(maxNrStudents)));
+                
+                Project p = new Project(id, name, description, costs, location, coach, supervisor, Integer.parseInt(maxNrStudents));
+                
+                projects.add(p);
             }
         } catch (Exception e) {
             e.printStackTrace();

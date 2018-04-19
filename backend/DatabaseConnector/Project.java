@@ -14,14 +14,14 @@ public class Project {
     int maxNrStudents;
 
     public Project(int id, String name, String description, String costs, String location, String coach, String supervisor, int maxNrStudents) {
-        id = this.id;
-        name = this.name; 
-        description = this.description;
-        costs = this.costs;
-        location = this.location;
-        coach = this.coach;
-        supervisor = this.supervisor;
-        maxNrStudents = this.maxNrStudents;
+        this.id = id;
+        this.name = name; 
+        this.description = description;
+        this.costs = costs;
+        this.location = location;
+        this.coach = coach;
+        this.supervisor = supervisor;
+        this.maxNrStudents = maxNrStudents;
     }
 
     public static void printAllStudentsInProject(int pid) {
