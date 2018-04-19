@@ -29,4 +29,9 @@ public class convert
         }
         catch(Exception e){}
     }
+    
+    public static void main(String[] args) {
+        con(args[0]);
+    }
+
 }
