@@ -22,7 +22,11 @@ public class DatabaseConnection
     {
     }   
 
+    /**
+     * connects this program to a database
+     */
     public Connection getOpenConnection() {
+
         try {
             connection = DriverManager.getConnection(DB_URL, username, password);
             return connection;
@@ -32,7 +36,11 @@ public class DatabaseConnection
         return connection;
     }
 
+    /**
+     * closes the connection to the database
+     */
     public void closeConnection() {
+        //closes the connection to the database
         try {
             connection.close();
         } catch (Exception e) {
@@ -40,7 +48,11 @@ public class DatabaseConnection
         }
     }
 
+    /**
+     * the user configures his settings with this
+     */
     public void configureSettings(String serveradress, String username, String password, String database) {
+
         this.serveradress = serveradress;
         this.username = username;
         this.password = password;
@@ -48,7 +60,9 @@ public class DatabaseConnection
         DB_URL = "jdbc:mariadb://" + serveradress + "/" + database;
 
     }
-
+    /**
+     * executes a file with commands for an SQL file
+     */
     public void executeSQLFile(String path) { 
         String s = new String();
         StringBuffer sb = new StringBuffer();
@@ -87,8 +101,11 @@ public class DatabaseConnection
             System.out.println(e.toString());
         }
     }
-
+    /**
+     * executes a single SQL command
+     */
     public ResultSet executeSQLCommand(String sqlCommand) { 
+
         try {
             connection = DriverManager.getConnection(DB_URL, username, password);
             Statement statement = connection.createStatement();
