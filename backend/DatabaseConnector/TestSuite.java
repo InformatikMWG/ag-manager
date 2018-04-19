@@ -18,17 +18,17 @@ public class TestSuite
             FileReader fr = new FileReader(new File("mockupData/students.csv"));
             BufferedReader br = new BufferedReader(fr);
 
-            String insertInto = "INSERT INTO Students (id, first_name, last_name, password) VALUES (?, ?, ?, ?)";
+            String insertInto = "INSERT INTO Students (id, first_name, last_name, classname) VALUES (?, ?, ?, ?)";
             Connection connection = db.getOpenConnection();
             PreparedStatement statement = connection.prepareStatement(insertInto);
             while((s = br.readLine()) != null)
             {
                 s.trim();
                 String[] values = s.split(",");
-                statement.setInt(1, Integer.parseInt(values[0]));
-                statement.setString(2, values[1]);
-                statement.setString(3, values[2]);
-                statement.setString(4, values[3]);
+                statement.setString(1, values[3]);
+                statement.setString(2, values[0]);
+                statement.setString(3, values[1]);
+                statement.setString(4, values[2]);
                 statement.addBatch();
             }
 
@@ -83,7 +83,8 @@ public class TestSuite
                 String first_name = resultSet.getString("first_name");
                 String last_name = resultSet.getString("last_name");
                 String password = resultSet.getString("password");
-                System.out.println(id + "," + first_name + "," + last_name + "," + password);
+                String classname = resultSet.getString("classname");
+                System.out.println(id + "," + first_name + "," + last_name + "," + classname + "," + password);
             }
         } catch (Exception e) {
             e.printStackTrace();
