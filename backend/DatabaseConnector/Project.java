@@ -5,13 +5,13 @@ public class Project
     int id;
     String name; 
     String description;
-    double costs;
+    String costs;
     String location;
     String coach;
     String supervisor;
-    int maxNrStudents;
+    String maxNrStudents;
 
-    public Project(int pid, int id , String name, String description, double costs, String location, String coach, String supervisor, int maxNrStudents)  {
+    public Project(int id , String name, String description, String costs, String location, String coach, String supervisor, String maxNrStudents)  {
         id = this.id;
         name = this.name; 
         description = this.description;
