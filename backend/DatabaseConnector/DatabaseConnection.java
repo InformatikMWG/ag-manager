@@ -20,8 +20,33 @@ public class DatabaseConnection
 
     private DatabaseConnection()
     {
+        parseConfigFile();
     }   
 
+    /**
+     * reads config file
+     */
+    private void parseConfigFile()
+    {
+        try {
+            // Die Datei test.properties enthaelt die sensiblen Zugangsdaten
+            File file = new File("test.properties");
+            FileInputStream fileInput = new FileInputStream(file);
+            Properties properties = new Properties();
+            properties.load(fileInput);
+            fileInput.close();
+
+            String ip = properties.getProperty("IP");           
+            String user = properties.getProperty("USER");   
+            String password = properties.getProperty("PASSWORD");   
+            String database = properties.getProperty("DATABASE");   
+
+            configureSettings(ip,user, password, database);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     /**
      * connects this program to a database
      */
