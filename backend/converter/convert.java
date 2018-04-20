@@ -25,6 +25,7 @@ public class convert
                 line+=",";
                 line+=outputline;
                 writeout.println(line);
+                writeout.flush();
             }
         }
         catch(Exception e){}
