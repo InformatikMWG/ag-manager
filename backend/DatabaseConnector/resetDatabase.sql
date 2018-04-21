@@ -44,8 +44,8 @@ CREATE TABLE Project_slots (
 ) ENGINE=InnoDB;
 
 
-INSERT INTO Project_slots (pid, date, time_start, time_end)
-VALUES             (1, '2018-05-05', '09:00', '09:45');
+#INSERT INTO Project_slots (pid, date, time_start, time_end)
+#VALUES             (1, '2018-05-05', '09:00', '09:45');
 
 # Naechste Eingabe sollte nicht funktionieren,
 # da kein Projekt mit ID 2 vorhanden
@@ -67,8 +67,8 @@ CREATE TABLE Student_in_Group (
 
 
 
-INSERT INTO Student_in_Group (sid, gid)
-VALUES             ('AR1928', 1);
+#INSERT INTO Student_in_Group (sid, gid)
+#VALUES             ('AR1928', 1);
 
 
 CREATE TABLE Student_in_Project (
@@ -86,8 +86,8 @@ CREATE TABLE Student_in_Project (
 
 
 
-INSERT INTO Student_in_Project (sid, pid, time, state)
-VALUES             ('AR1928', 1, '2018-05-05 10:00', 1);
+#INSERT INTO Student_in_Project (sid, pid, time, state)
+#VALUES             ('AR1928', 1, '2018-05-05 10:00', 1);
 
 
 

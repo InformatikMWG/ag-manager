@@ -73,6 +73,11 @@ public class TestSuite
             System.out.println(e.toString());
         }
     }
+    
+    
+    public static void insertMockupStudentInProjekt() {
+        db.executeSQLFile("mockupData/student_in_project.sql");         
+    } 
 
     public static void showAllStudents() {
         String sqlCommand = "SELECT * FROM Students;";
