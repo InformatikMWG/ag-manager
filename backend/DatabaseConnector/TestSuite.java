@@ -10,7 +10,7 @@ public class TestSuite
         db.executeSQLFile("resetDatabase.sql");         
     } 
 
-    public static void insertMockupDataStudents() {
+    private static void insertMockupDataStudents() {
         String s = new String();
 
         try
@@ -41,7 +41,7 @@ public class TestSuite
         }  
     }
 
-    public static void insertMockupDataProjects()
+    private static void insertMockupDataProjects()
     {
         String s = new String();
         try
@@ -73,10 +73,16 @@ public class TestSuite
             System.out.println(e.toString());
         }
     }
-    
-    
-    public static void insertMockupStudentInProjekt() {
+
+    private static void insertMockupStudentInProjekt() {
         db.executeSQLFile("mockupData/student_in_project.sql");         
+    } 
+
+    public static void setupMockupDatabase() {
+        resetDatabase();
+        insertMockupDataStudents();        
+        insertMockupDataProjects();
+        insertMockupStudentInProjekt();
     } 
 
     public static void showAllStudents() {
@@ -115,5 +121,6 @@ public class TestSuite
             e.printStackTrace();
         }
     }
+
 
 }
