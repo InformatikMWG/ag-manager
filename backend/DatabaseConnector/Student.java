@@ -8,7 +8,7 @@ import java.io.*;
  * @author (Ihr Name) 
  * @version (eine Versionsnummer oder ein Datum)
  */
-public class Student
+public class Student implements Comparable<Student>
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
     private String sid;
@@ -44,7 +44,7 @@ public class Student
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return new Student(firstname, lastname, classname, sid);
     }
 
@@ -98,6 +98,16 @@ public class Student
 
     public ArrayList<Project_Slot> getProject_Slots() {
         return null;
+    }
+
+    
+    /**
+     * compares two students
+     * order criteria: classname, last name, firstname
+     */
+    @Override
+    public int compareTo(Student s) {
+        return 0;
     }
 
 }
