@@ -44,16 +44,6 @@ CREATE TABLE Project_slots (
 ) ENGINE=InnoDB;
 
 
-#INSERT INTO Project_slots (pid, date, time_start, time_end)
-#VALUES             (1, '2018-05-05', '09:00', '09:45');
-
-# Naechste Eingabe sollte nicht funktionieren,
-# da kein Projekt mit ID 2 vorhanden
-#INSERT INTO Project_slots (pid, date, time_start, time_end)
-#VALUES             (2, '2018-05-05', '09:00', '09:45');
-
-
-
 CREATE TABLE Student_in_Group (
   sid        VARCHAR(255) NOT NULL,
   gid        INT NOT NULL,
@@ -64,11 +54,6 @@ CREATE TABLE Student_in_Group (
   ON DELETE RESTRICT
   ON UPDATE CASCADE
 ) ENGINE=InnoDB;
-
-
-
-#INSERT INTO Student_in_Group (sid, gid)
-#VALUES             ('AR1928', 1);
 
 
 CREATE TABLE Student_in_Project (
@@ -83,11 +68,6 @@ CREATE TABLE Student_in_Project (
   ON DELETE RESTRICT
   ON UPDATE CASCADE
 ) ENGINE=InnoDB;
-
-
-
-#INSERT INTO Student_in_Project (sid, pid, time, state)
-#VALUES             ('AR1928', 1, '2018-05-05 10:00', 1);
 
 
 
