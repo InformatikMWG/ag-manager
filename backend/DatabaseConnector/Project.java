@@ -67,5 +67,28 @@ public class Project {
     public ArrayList<Project_Slot> getProject_Slots() {
         return null;
     }
+
+    /**
+     * print nicely formattet entry list, e.g.
+     * 
+     * ################################################################################
+     * Project: Testproject  
+     * Date:    08.07.2018
+     * Room:    E251
+     * Teacher: Mr. X
+     * ################################################################################
+     * Participants
+     * 
+     * nr, classname, name, first name
+     * 
+     * 
+     * Participants ordered by classname, last name and first name 
+     */
+    public void printEntryList() {
+        String delimiterSymbol = "################################################################################";
+        System.out.println(delimiterSymbol);
+    }
+    
+    
 }
 
