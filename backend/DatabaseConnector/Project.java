@@ -65,7 +65,28 @@ public class Project {
     }
 
     public ArrayList<Project_Slot> getProject_Slots() {
-        return null;
+          DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        ArrayList<Project_Slot> project_slots = new ArrayList<>();
+       
+
+        String sqlCommand1 = "SELECT * FROM Project_slots WHERE pid = '" + id + "';";
+        ResultSet resultSet1 = db.executeSQLCommand(sqlCommand1);
+
+        try {
+            while(resultSet1.next()) {
+                String pid = resultSet1.getString("pid");
+                String date = resultSet1.getString("date");
+                String time_start  = resultSet1.getString("time_start " );
+                String time_end = resultSet1.getString("time_end" );
+                Project_Slot ps = new Project_Slot(Integer.parseInt(pid),date,time_start,time_end);
+                project_slots.add(ps);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+       
+        return project_slots;
     }
 
     /**
