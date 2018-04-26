@@ -77,12 +77,17 @@ public class TestSuite
     private static void insertMockupStudentInProjekt() {
         db.executeSQLFile("mockupData/student_in_project.sql");         
     } 
+    
+     private static void insertMockupProjectSlots() {
+        db.executeSQLFile("mockupData/Project_slots_mockupdata.sql");         
+    }
 
     public static void setupMockupDatabase() {
         resetDatabase();
         insertMockupDataStudents();        
         insertMockupDataProjects();
         insertMockupStudentInProjekt();
+        insertMockupProjectSlots();
     } 
 
     public static void showAllStudents() {
