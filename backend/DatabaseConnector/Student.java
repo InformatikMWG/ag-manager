@@ -11,53 +11,59 @@ import java.io.*;
 public class Student implements Comparable<Student>
 {
     // Instanzvariablen - ersetzen Sie das folgende Beispiel mit Ihren Variablen
-    private String sid;
-    private String firstname;
-    private String lastname;
+    private String id;
+    private String first_name;
+    private String last_name;
+    private String password;
     private String classname;
+    
 
     /**
      * Konstruktor für Objekte der Klasse Student
      */
-    public Student(String fn, String ln, String c, String sid) {
-        firstname = fn;
-        lastname = ln;
-        classname = c;
-        this.sid = sid;
+    public Student( String id, String first_name, String last_name, String password, String classname) {
+        this.id        = id;
+        this.first_name = first_name;
+        this.last_name  = last_name;
+        this.password  = password;
+        this.classname = classname;
     }
 
-    public static Student getStudent(String sid) {
-        String firstname = null;
-        String lastname = null;
-        String classname = null;
+    public static Student getStudent(String id) {
+        String first_name = null;
+        String last_name  = null;
+        String password   = null;
+        String classname  = null;
+        
         DatabaseConnection db;
         db = DatabaseConnection.getDatabaseConnection();
-        String sqlCommand = "SELECT * FROM Students WHERE id = '" + sid + "';";
+        String sqlCommand = "SELECT * FROM Students WHERE id = '" + id + "';";
         ResultSet resultSet = db.executeSQLCommand(sqlCommand);
 
         try {
             while(resultSet.next()) {
-                firstname = resultSet.getString("first_name");
-                lastname  = resultSet.getString("last_name" );
-                classname = resultSet.getString("classname" );
+                first_name = resultSet.getString("first_name");
+                last_name  = resultSet.getString("last_name" );
+                password   = resultSet.getString("password"  );
+                classname  = resultSet.getString("classname" );
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return new Student(firstname, lastname, classname, sid);
+        return new Student(id, first_name, last_name, password, classname);
     }
 
     public String getSid() {
-        return sid;
+        return id;
     }
 
     public String getFirstName() {
-        return firstname;
+        return first_name;
     }
 
     public String getLastName() {
-        return lastname;
+        return last_name;
     }
 
     public String getClassName() {
@@ -65,24 +71,24 @@ public class Student implements Comparable<Student>
     }
 
     public void printStudent() {
-        System.out.println(sid + "," + firstname + ", " + lastname + ", " + classname);
+        System.out.println(id + "," + first_name + ", " + last_name + ", " + classname);
     }
 
     public ArrayList<Project> getProjects() {
-        String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = '" + sid + "' ) ;";
+        String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = '" + id + "' ) ;";
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
         ResultSet resultSet = db.executeSQLCommand(sqlCommand);
         ArrayList<Project> projects = new ArrayList<Project>();
 
         try {
             while(resultSet.next()) {
-                int id = Integer.parseInt(resultSet.getString("id"));
-                String name = resultSet.getString("name");
-                String description = resultSet.getString("description");
-                String costs = resultSet.getString("costs");
-                String location = resultSet.getString("location");
-                String coach = resultSet.getString("coach");
-                String supervisor = resultSet.getString("supervisor");
+                int    id            = resultSet.getInt("id"              );
+                String name          = resultSet.getString("name"         );
+                String description   = resultSet.getString("description"  );
+                String costs         = resultSet.getString("costs"        );
+                String location      = resultSet.getString("location"     );
+                String coach         = resultSet.getString("coach"        );
+                String supervisor    = resultSet.getString("supervisor"   );
                 String maxNrStudents = resultSet.getString("maxNrStudents");
 
                 Project p = new Project(id, name, description, costs, location, coach, supervisor, Integer.parseInt(maxNrStudents));
