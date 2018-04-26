@@ -12,8 +12,8 @@ public class Organizer
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
         ArrayList<Project> projects = new ArrayList<>();
 
-        String sqlCommand = "SELECT * FROM Projects";
-        ResultSet resultSet = db.executeSQLCommand(sqlCommand);
+        String    sqlCommand = "SELECT * FROM Projects";
+        ResultSet resultSet  = db.executeSQLCommand(sqlCommand);
 
         try {
             while(resultSet.next()) {
@@ -39,7 +39,6 @@ public class Organizer
      * returns a list of all students
      */
     public static ArrayList<Student> getAllStudents() {  
-        int i = 0;
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
         ArrayList<Student> students = new ArrayList<>();
 
@@ -48,7 +47,6 @@ public class Organizer
 
         try {
             while(resultSet.next()) {
-                i++;
                 String id          = resultSet.getString("id"        );
                 String first_name  = resultSet.getString("first_name");
                 String last_name   = resultSet.getString("last_name" );
@@ -60,15 +58,6 @@ public class Organizer
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        System.out.println(i);
-
-        i = 0;
-
-        for(Student s : students) i++;
-        System.out.println(i);
-
-        System.out.println(students.size());
         return students;
     }
 
