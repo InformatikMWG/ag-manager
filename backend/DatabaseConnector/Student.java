@@ -73,6 +73,10 @@ public class Student implements Comparable<Student>
     public void printStudent() {
         System.out.println(id + "," + first_name + ", " + last_name + ", " + classname);
     }
+    
+    public String getRelevantInformation() {
+        return (classname + ", " + last_name + ", " + first_name);
+    }
 
     public ArrayList<Project> getProjects() {
         String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = '" + id + "' ) ;";

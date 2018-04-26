@@ -134,6 +134,21 @@ public class Project {
     public void printEntryList() {
         String delimiterSymbol = "################################################################################";
         System.out.println(delimiterSymbol);
+        System.out.println("Projekt:   " + name);
+        //System.out.println("Datum:  ");
+        System.out.println("Raum:   " + location);
+        System.out.println("Leiter:   " + coach);
+        System.out.println(delimiterSymbol);
+        System.out.println("Teilnehmer:");
+        System.out.println("");
+        ArrayList<Student> students = getStudentsInProject(id);
+        int i = 1;
+        for (Student s: students) {
+            System.out.println(i + ", " + s.getRelevantInformation());
+            i++;
+        }
+        System.out.println("");
     }
+
 
 }

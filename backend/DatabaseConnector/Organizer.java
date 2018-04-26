@@ -70,6 +70,13 @@ public class Organizer
      * print out all entry lists
      * 
      */
-    public static ArrayList<Project> printAllEntryLists() { return null; }
 
+    public static ArrayList<Project> printAllEntryLists() { 
+        
+        ArrayList<Project> allProjects = getAllProjects();
+        for(Project p: allProjects) p.printEntryList();
+        return null; 
+    }
+    
+    
 }
