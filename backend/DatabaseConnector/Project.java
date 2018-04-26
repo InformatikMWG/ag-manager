@@ -24,6 +24,33 @@ public class Project {
         this.maxNrStudents = maxNrStudents;
     }
 
+    public Project(int pid) {
+        this.id = pid;
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+
+        String sqlCommand1 = "SELECT * FROM Projects WHERE id = " + pid + ";";
+//        String sqlCommand1 = "SELECT * FROM Projects;";
+        ResultSet resultSet1 = db.executeSQLCommand(sqlCommand1);
+
+        try {
+            while(resultSet1.next()) {
+                this.id = pid;
+                name = resultSet1.getString("name");
+                description = resultSet1.getString("description");
+                costs = resultSet1.getString("costs");
+                location = resultSet1.getString("location");
+                coach = resultSet1.getString("coach");
+                supervisor = resultSet1.getString("supervisor");
+                maxNrStudents = resultSet1.getInt("maxNrStudents");
+              
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+
+    }
+
     public static void printAllStudentsInProject(int pid) {
         ArrayList<Student> students = getStudentsInProject(pid);
         for (Student s: students) s.printStudent();
@@ -66,9 +93,8 @@ public class Project {
     }
 
     public ArrayList<Project_Slot> getProject_Slots() {
-          DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
         ArrayList<Project_Slot> project_slots = new ArrayList<>();
-       
 
         String sqlCommand1 = "SELECT * FROM Project_slots WHERE pid = '" + id + "';";
         ResultSet resultSet1 = db.executeSQLCommand(sqlCommand1);
@@ -86,7 +112,6 @@ public class Project {
             e.printStackTrace();
         }
 
-       
         return project_slots;
     }
 
@@ -110,7 +135,5 @@ public class Project {
         String delimiterSymbol = "################################################################################";
         System.out.println(delimiterSymbol);
     }
-    
-    
-}
 
+}
