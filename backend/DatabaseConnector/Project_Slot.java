@@ -21,4 +21,11 @@ public class Project_Slot
 
     }
 
+    /**
+     * remove a given slot from the database
+     */
+    public void removeProjectSlotFromDatabase() {
+
+    }
+
 }
