@@ -151,11 +151,33 @@ public class Project {
     }
     
     /**
-     * write values to database
+     * write current values to database
      */
     public void updateProjectInDatabase() {
         
     }
 
 
+    /**
+     * add project to database
+     */
+    public void createProjectInDatabase() {
+        
+    }
+
+    
+
+    /**
+     * delete project from database
+     */
+    public void deleteProjectFromDatabase() {
+        
+    }
+    
+
+    
+    
+    
+    
+    
 }
