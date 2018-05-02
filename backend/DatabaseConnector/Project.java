@@ -149,6 +149,13 @@ public class Project {
         }
         System.out.println("");
     }
+    
+    /**
+     * write values to database
+     */
+    public void updateProjectInDatabase() {
+        
+    }
 
 
 }
