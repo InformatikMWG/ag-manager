@@ -17,7 +17,7 @@ public class Project_Slot
     /**
      * add a given slot to the database
      */
-    public void addProjectSlotToDatabase(Project_Slot ps) {
+    public void addProjectSlotToDatabase() {
 
     }
 
