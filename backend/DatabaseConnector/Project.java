@@ -29,7 +29,7 @@ public class Project {
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
 
         String sqlCommand1 = "SELECT * FROM Projects WHERE id = " + pid + ";";
-//        String sqlCommand1 = "SELECT * FROM Projects;";
+        //        String sqlCommand1 = "SELECT * FROM Projects;";
         ResultSet resultSet1 = db.executeSQLCommand(sqlCommand1);
 
         try {
@@ -42,12 +42,11 @@ public class Project {
                 coach = resultSet1.getString("coach");
                 supervisor = resultSet1.getString("supervisor");
                 maxNrStudents = resultSet1.getInt("maxNrStudents");
-              
+
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
 
     }
 
@@ -149,35 +148,34 @@ public class Project {
         }
         System.out.println("");
     }
-    
+
     /**
      * write current values to database
      */
     public void updateProjectInDatabase() {
-        
-    }
 
+    }
 
     /**
      * add project to database
      */
     public void createProjectInDatabase() {
-        
-    }
 
-    
+    }
 
     /**
      * delete project from database
      */
     public void deleteProjectFromDatabase() {
-        
-    }
-    
 
-    
-    
-    
-    
-    
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
 }
