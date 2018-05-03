@@ -28,4 +28,23 @@ public class Project_Slot
 
     }
 
+    public int getPid(){
+
+        return pid;
+    }
+
+    public void setPid(int newpid){pid = newpid;}
+
+    public String getDate(){return date;}
+
+    public void setDate(String newDate){date = newDate;}
+
+    public String getTime_start(){return time_start;}
+    
+    public void setTime_start(String newtime_start){time_start = newtime_start;}
+    
+    public String getTime_end(){return time_end;}
+    
+    public void setTime_end(String newtime_end){time_start = newtime_end;}
 }
+    
