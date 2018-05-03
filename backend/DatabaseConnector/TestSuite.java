@@ -126,6 +126,20 @@ public class TestSuite
             e.printStackTrace();
         }
     }
-
-
+    
+    public static void showAllProject_slots() {
+        String sqlCommand = "SELECT * FROM Project_slots;";
+        ResultSet resultSet = db.executeSQLCommand(sqlCommand);
+        try {
+            while(resultSet.next()) {
+                String pid = resultSet.getString("pid");
+                String date = resultSet.getString("date");
+                String time_start = resultSet.getString("time_start");
+                String time_end = resultSet.getString("time_end");
+                System.out.println(pid + "," + date + "," + time_start + "," + time_end);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
