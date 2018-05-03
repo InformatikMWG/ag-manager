@@ -120,4 +120,9 @@ public class Student implements Comparable<Student>
         return 0;
     }
 
+    public boolean equals(Object o) {
+        Student s = (Student) o;
+        if (id == s.getId()) return true;
+        return false;
+    }
 }
