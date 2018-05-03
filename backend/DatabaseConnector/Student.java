@@ -54,7 +54,7 @@ public class Student implements Comparable<Student>
         return new Student(id, first_name, last_name, password, classname);
     }
 
-    public String getSid() {
+    public String getId() {
         return id;
     }
 
