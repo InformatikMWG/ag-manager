@@ -16,7 +16,6 @@ public class Student implements Comparable<Student>
     private String last_name;
     private String password;
     private String classname;
-    
 
     /**
      * Konstruktor für Objekte der Klasse Student
@@ -34,7 +33,7 @@ public class Student implements Comparable<Student>
         String last_name  = null;
         String password   = null;
         String classname  = null;
-        
+
         DatabaseConnection db;
         db = DatabaseConnection.getDatabaseConnection();
         String sqlCommand = "SELECT * FROM Students WHERE id = '" + id + "';";
@@ -61,31 +60,31 @@ public class Student implements Comparable<Student>
     public String getFirstName() {
         return first_name;
     }
-    
-       public String setFirstName(string first_name) {
-       this.first_name = first_name;
+
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
         return last_name;
     }
-       
-    public String setLastName(string last_name) {
+
+    public void setLastName(String last_name) {
         this.last_name = last_name;
     }
 
     public String getClassName() {
         return classname;
     }   
-    
-    public String setClassName(string classname) {
-         this.classname = classname;
+
+    public void setClassName(String classname) {
+        this.classname = classname;
     }
 
     public void printStudent() {
         System.out.println(id + "," + first_name + ", " + last_name + ", " + classname);
     }
-    
+
     public String getRelevantInformation() {
         return (classname + ", " + last_name + ", " + first_name);
     }
@@ -122,7 +121,6 @@ public class Student implements Comparable<Student>
         return null;
     }
 
-    
     /**
      * compares two students
      * order criteria: classname, last name, firstname
@@ -136,10 +134,11 @@ public class Student implements Comparable<Student>
         temp = first_name.compareToIgnoreCase(s.getFirstName());
         return temp;
     }
+
     public void updateStudentInDatabase() {
-        DatabaseConnection db = new DatabaseConnection();
-        db.executeSQLCommand("UPDATE Student SET  name = "+ name + ", description = " + description + ", costs = " + costs ", location = " + location + ", coach = " + coach + ",  supervisor = " + supervisor + ", maxNrStudents = "+ maxNrStudents + " Where ID = " + id)" )
-        
+ //       DatabaseConnection db = new DatabaseConnection();
+//        db.executeSQLCommand("UPDATE Student SET  name = "+ name + ", description = " + description + ", costs = " + costs ", location = " + location + ", coach = " + coach + ",  supervisor = " + supervisor + ", maxNrStudents = "+ maxNrStudents + " Where ID = " + id)" 
+
     }
 
 }
