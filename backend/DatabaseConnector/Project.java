@@ -202,4 +202,36 @@ public class Project {
         return maxNrStudents;
     }
 
+    public void setId(int id){
+        id = this.id;
+    }
+
+    public void setId(String name){
+        name = this.name;
+    }
+
+    public void setDescription(String description){
+        description = this.description;
+    }
+
+    public void setCosts(String costs){
+        costs = this.costs;
+    }
+
+    public void setLocation(String location){
+        location = this.location;
+    }
+    
+    public void setCoach(String coach){
+        coach = this.coach;
+    }
+
+    public void setSupervisor(String supervisor){
+        supervisor = this.supervisor;
+    }
+
+    public void setMaxNrStudents(int maxNrStudents){
+        maxNrStudents = this.maxNrStudents;
+    }
+
 }
