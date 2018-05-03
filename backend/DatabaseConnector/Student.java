@@ -54,20 +54,32 @@ public class Student implements Comparable<Student>
         return new Student(id, first_name, last_name, password, classname);
     }
 
-    public String getSid() {
+    public String getSid() {               
         return id;
     }
 
     public String getFirstName() {
         return first_name;
     }
+    
+       public String setFirstName(string first_name) {
+       this.first_name = first_name;
+    }
 
     public String getLastName() {
         return last_name;
     }
+       
+    public String setLastName(string last_name) {
+        this.last_name = last_name;
+    }
 
     public String getClassName() {
         return classname;
+    }   
+    
+    public String setClassName(string classname) {
+         this.classname = classname;
     }
 
     public void printStudent() {
@@ -118,6 +130,11 @@ public class Student implements Comparable<Student>
     @Override
     public int compareTo(Student s) {
         return 0;
+    }
+    public void updateStudentInDatabase() {
+        DatabaseConnection db = new DatabaseConnection();
+        db.executeSQLCommand("UPDATE Student SET  name = "+ name + ", description = " + description + ", costs = " + costs ", location = " + location + ", coach = " + coach + ",  supervisor = " + supervisor + ", maxNrStudents = "+ maxNrStudents + " Where ID = " + id)" )
+        
     }
 
 }
