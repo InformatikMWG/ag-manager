@@ -178,4 +178,28 @@ public class Project {
         return name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCosts() {
+        return costs;
+    }
+
+    public String getLocation() {
+        return name;
+    }
+
+    public String getCoach() {
+        return coach;
+    }
+
+    public String getSupervisor() {
+        return supervisor;
+    }
+
+    public int getMaxNrStudents() {
+        return maxNrStudents;
+    }
+
 }
