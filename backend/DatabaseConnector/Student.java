@@ -129,7 +129,12 @@ public class Student implements Comparable<Student>
      */
     @Override
     public int compareTo(Student s) {
-        return 0;
+        int temp = classname.compareToIgnoreCase(s.getClassName());
+        if(temp != 0)return temp;
+        temp = last_name.compareToIgnoreCase(s.getLastName());
+        if(temp != 0)return temp;
+        temp = first_name.compareToIgnoreCase(s.getFirstName());
+        return temp;
     }
     public void updateStudentInDatabase() {
         DatabaseConnection db = new DatabaseConnection();
