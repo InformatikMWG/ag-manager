@@ -141,6 +141,7 @@ public class Project {
         System.out.println("Teilnehmer:");
         System.out.println("");
         ArrayList<Student> students = getStudentsInProject(id);
+        Collections.sort(students);
         int i = 1;
         for (Student s: students) {
             System.out.println(i + ", " + s.getRelevantInformation());
@@ -221,7 +222,7 @@ public class Project {
     public void setLocation(String location){
         location = this.location;
     }
-    
+
     public void setCoach(String coach){
         coach = this.coach;
     }
