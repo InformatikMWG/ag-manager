@@ -168,7 +168,11 @@ public class Project {
      * delete project from database
      */
     public void deleteProjectFromDatabase() {
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        
 
+        String    sqlCommand = "Delete FROM Projects WHERE id =" + id + ";" ;
+        ResultSet resultSet = db.executeSQLCommand(sqlCommand);
     }
 
     public int getId() {
