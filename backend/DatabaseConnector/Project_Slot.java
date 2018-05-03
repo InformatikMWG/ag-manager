@@ -18,7 +18,9 @@ public class Project_Slot
      * add a given slot to the database
      */
     public void addProjectSlotToDatabase() {
-
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        db.executeSQLCommand("INSERT INTO Project_slot (pid, date, time_start, time_end)  VALUES ("+ pid + ",'" + date + "','" + time_start + "','" + time_end + "')");
+        // TODO: doesnt work yet
     }
 
     /**
@@ -28,10 +30,7 @@ public class Project_Slot
 
     }
 
-    public int getPid(){
-
-        return pid;
-    }
+    public int getPid(){return pid;}
 
     public void setPid(int newpid){pid = newpid;}
 
@@ -40,11 +39,11 @@ public class Project_Slot
     public void setDate(String newDate){date = newDate;}
 
     public String getTime_start(){return time_start;}
-    
+
     public void setTime_start(String newtime_start){time_start = newtime_start;}
-    
+
     public String getTime_end(){return time_end;}
-    
+
     public void setTime_end(String newtime_end){time_start = newtime_end;}
 }
-    
+
