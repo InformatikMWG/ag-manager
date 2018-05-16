@@ -64,22 +64,25 @@ public class Organizer
     /**
      * returns a list of students which are not enrolled at a specified date
      */
-    public static ArrayList<Student> getAllStudentsWithoutRegistration(String date) {
+   public static ArrayList<Student> getAllStudentsWithoutRegistration(String date) {
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
-        ArrayList<Student> students = getAllStudents();
+        ArrayList<Student> students = new ArrayList<>();
 
-        String    sqlCommand = "" +
-            "SELECT * " +
-            "FROM Student_in_Project,Project_slots " +
-            "WHERE Project_slots.pid = Student_in_Project.pid " +
-            "AND Project_slots.date = '" + date + "'";
+        String    sqlCommand = "SELECT * FROM Students WHERE id NOT IN (SELECT sid FROM Students s, Student_in_Project p, Project_slots ps WHERE ps.pid = p.pid AND ps.date = '" + date + "' AND s.id = p.sid)";
+            
+            
         ResultSet resultSet  = db.executeSQLCommand(sqlCommand);
         try {
             while(resultSet.next()) {
-                System.out.println(resultSet.getString("sid"));
-                for(Student s: students) 
-                    if(s.getId() == resultSet.getString("sid")) 
-                        students.remove(s);
+                String id         = resultSet.getString("id"        );
+                String first_name = resultSet.getString("first_name");
+                String last_name  = resultSet.getString("last_name" );
+                String password   = resultSet.getString("password"  );
+                String classname  = resultSet.getString("classname" );
+                
+                students.add(new Student( id, first_name, last_name, password, classname));
+                    
+                
 
             }
         } catch (Exception e) {
