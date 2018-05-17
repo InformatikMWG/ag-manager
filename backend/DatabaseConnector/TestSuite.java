@@ -8,6 +8,7 @@ public class TestSuite
 
     public static void resetDatabase() {
         db.executeSQLFile("resetDatabase.sql");         
+        db.executeSQLFile("addGroups.sql"); 
     } 
 
     private static void insertMockupDataStudents() {
