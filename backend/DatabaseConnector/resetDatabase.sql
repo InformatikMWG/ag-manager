@@ -28,7 +28,7 @@ CREATE TABLE Projects (
 
 
 CREATE TABLE Groups (
-  id        INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id        VARCHAR(255) NOT NULL PRIMARY KEY,
   name      VARCHAR(255)
 ) ENGINE=InnoDB;
 
@@ -46,7 +46,7 @@ CREATE TABLE Project_slots (
 
 CREATE TABLE Student_in_Group (
   sid        VARCHAR(255) NOT NULL,
-  gid        INT NOT NULL,
+  gid        VARCHAR(255) NOT NULL,
   FOREIGN KEY (sid) REFERENCES Students(id)
   ON DELETE RESTRICT
   ON UPDATE CASCADE,
@@ -72,7 +72,7 @@ CREATE TABLE Student_in_Project (
 
 
 CREATE TABLE Filters (
-  pid       INT,
-  gid       INT,
+  pid       INT NOT NULL,
+  gid       VARCHAR(255) NOT NULL,
   isBlacklist BOOLEAN
 ) ENGINE=InnoDB;
