@@ -77,10 +77,19 @@ public class TestSuite
     private static void insertMockupStudentInProjekt() {
         db.executeSQLFile("mockupData/student_in_project.sql");         
     } 
-    
-     private static void insertMockupProjectSlots() {
+
+    private static void insertMockupProjectSlots() {
         db.executeSQLFile("mockupData/Project_slots_mockupdata.sql");         
     }
+
+    private static void insertMockupStudentInGroup() {
+    } 
+
+    private static void insertMockupGroups() {
+    } 
+
+    private static void insertMockupFilters() {
+    } 
 
     public static void setupMockupDatabase() {
         resetDatabase();
@@ -126,7 +135,7 @@ public class TestSuite
             e.printStackTrace();
         }
     }
-    
+
     public static void showAllProject_slots() {
         String sqlCommand = "SELECT * FROM Project_slots;";
         ResultSet resultSet = db.executeSQLCommand(sqlCommand);
