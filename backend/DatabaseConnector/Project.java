@@ -154,7 +154,9 @@ public class Project {
      * write current values to database
      */
     public void updateProjectInDatabase() {
-
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        String    sqlCommand = "UPDATE Projects SET name = '" + name + "', description ='" + description + "', costs = '" + costs + "', location = '" + location + "', coach = '" + coach + "', supervisor = '" + supervisor + "', maxNrStudents = '" + maxNrStudents + "' WHERE id = '"+ id +"'" ;
+        db.executeSQLCommand(sqlCommand);
     }
 
     /**
