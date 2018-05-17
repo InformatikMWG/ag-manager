@@ -15,7 +15,7 @@
 \fi
 
 \RequirePackage{array}
-\RequirePackage{fitnames}
+\RequirePackage[lastnamefont=sc]{fitnames}
 
 \RequirePackage{fontspec}
 \setmainfont{Fira Sans}
