@@ -53,7 +53,8 @@ public class Student implements Comparable<Student>
         return new Student(id, first_name, last_name, password, classname);
     }
 
-    public String getSid() {               
+
+    public String getId() {
         return id;
     }
 
@@ -169,4 +170,9 @@ public class Student implements Comparable<Student>
 
     }
 
+    public boolean equals(Object o) {
+        Student s = (Student) o;
+        if (id == s.getId()) return true;
+        return false;
+    }
 }

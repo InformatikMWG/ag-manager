@@ -64,7 +64,33 @@ public class Organizer
     /**
      * returns a list of students which are not enrolled at a specified date
      */
-    public static ArrayList<Student> getAllStudentsWithoutRegistration(String date) { return null; }
+   public static ArrayList<Student> getAllStudentsWithoutRegistration(String date) {
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        ArrayList<Student> students = new ArrayList<>();
+
+        String    sqlCommand = "SELECT * FROM Students WHERE id NOT IN (SELECT sid FROM Students s, Student_in_Project p, Project_slots ps WHERE ps.pid = p.pid AND ps.date = '" + date + "' AND s.id = p.sid)";
+            
+            
+        ResultSet resultSet  = db.executeSQLCommand(sqlCommand);
+        try {
+            while(resultSet.next()) {
+                String id         = resultSet.getString("id"        );
+                String first_name = resultSet.getString("first_name");
+                String last_name  = resultSet.getString("last_name" );
+                String password   = resultSet.getString("password"  );
+                String classname  = resultSet.getString("classname" );
+                
+                students.add(new Student( id, first_name, last_name, password, classname));
+                    
+                
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return students;
+    }
 
     /**
      * print out all entry lists
@@ -72,11 +98,10 @@ public class Organizer
      */
 
     public static ArrayList<Project> printAllEntryLists() { 
-        
+
         ArrayList<Project> allProjects = getAllProjects();
         for(Project p: allProjects) p.printEntryList();
         return null; 
     }
-    
-    
+
 }

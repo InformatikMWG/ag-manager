@@ -19,15 +19,15 @@ public class Project_Slot
      */
     public void addProjectSlotToDatabase() {
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
-        db.executeSQLCommand("INSERT INTO Project_slot (pid, date, time_start, time_end)  VALUES ("+ pid + ",'" + date + "','" + time_start + "','" + time_end + "')");
-        // TODO: doesnt work yet
+        db.executeSQLCommand("INSERT INTO Project_slots (pid, date, time_start, time_end)  VALUES ("+ pid + ",'" + date + "','" + time_start + "','" + time_end + "')" );
     }
 
     /**
      * remove a given slot from the database
      */
     public void removeProjectSlotFromDatabase() {
-
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        db.executeSQLCommand("DELETE FROM Project_slots WHERE pid = " + pid);
     }
 
     public int getPid(){return pid;}
