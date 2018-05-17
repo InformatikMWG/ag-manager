@@ -183,7 +183,6 @@ public class Project {
      */
     public void deleteProjectFromDatabase() {
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
-        
 
         String    sqlCommand = "DELETE FROM Projects WHERE id =" + id + ";" ;
         ResultSet resultSet = db.executeSQLCommand(sqlCommand);
@@ -222,35 +221,54 @@ public class Project {
     }
 
     public void setId(int id){
-        id = this.id;
+        this.id = id;
     }
 
-    public void setId(String name){
-        name = this.name;
+    public void setName(String name){
+        this.name = name;
     }
 
     public void setDescription(String description){
-        description = this.description;
+        this.description = description;
     }
 
     public void setCosts(String costs){
-        costs = this.costs;
+        this.costs = costs;
     }
 
     public void setLocation(String location){
-        location = this.location;
+        this.location = location;
     }
 
     public void setCoach(String coach){
-        coach = this.coach;
+        this.coach = coach;
     }
 
     public void setSupervisor(String supervisor){
-        supervisor = this.supervisor;
+        this.supervisor = supervisor;
     }
 
     public void setMaxNrStudents(int maxNrStudents){
-        maxNrStudents = this.maxNrStudents;
+        this.maxNrStudents = maxNrStudents;
     }
 
+    public void updateDatabase() {
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+
+        String sqlCommand = "" + 
+            "UPDATE Projects " + 
+            "SET " + 
+            "name = '" + name + "', " +
+            "description = '" + description + "', " +
+            "costs = '" + costs + "', " +
+            "location = '" + location + "', " +
+            "coach = '" + coach + "', " +
+            "supervisor = '" + supervisor + "', " +
+            "maxNrStudents = "  + maxNrStudents + " " +   
+            "WHERE id = " + id + ";";
+
+        db.executeSQLCommand(sqlCommand);
+    }
 }
+
+
