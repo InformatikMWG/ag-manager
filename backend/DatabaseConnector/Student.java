@@ -16,7 +16,6 @@ public class Student implements Comparable<Student>
     private String last_name;
     private String password;
     private String classname;
-    
 
     /**
      * Konstruktor für Objekte der Klasse Student
@@ -34,7 +33,7 @@ public class Student implements Comparable<Student>
         String last_name  = null;
         String password   = null;
         String classname  = null;
-        
+
         DatabaseConnection db;
         db = DatabaseConnection.getDatabaseConnection();
         String sqlCommand = "SELECT * FROM Students WHERE id = '" + id + "';";
@@ -54,6 +53,7 @@ public class Student implements Comparable<Student>
         return new Student(id, first_name, last_name, password, classname);
     }
 
+
     public String getId() {
         return id;
     }
@@ -62,18 +62,30 @@ public class Student implements Comparable<Student>
         return first_name;
     }
 
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
+    }
+
     public String getLastName() {
         return last_name;
     }
 
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
+    }
+
     public String getClassName() {
         return classname;
+    }   
+
+    public void setClassName(String classname) {
+        this.classname = classname;
     }
 
     public void printStudent() {
         System.out.println(id + "," + first_name + ", " + last_name + ", " + classname);
     }
-    
+
     public String getRelevantInformation() {
         return (classname + ", " + last_name + ", " + first_name);
     }
@@ -110,14 +122,24 @@ public class Student implements Comparable<Student>
         return null;
     }
 
-    
     /**
      * compares two students
      * order criteria: classname, last name, firstname
      */
     @Override
     public int compareTo(Student s) {
-        return 0;
+        int temp = classname.compareToIgnoreCase(s.getClassName());
+        if(temp != 0)return temp;
+        temp = last_name.compareToIgnoreCase(s.getLastName());
+        if(temp != 0)return temp;
+        temp = first_name.compareToIgnoreCase(s.getFirstName());
+        return temp;
+    }
+
+    public void updateStudentInDatabase() {
+ //       DatabaseConnection db = new DatabaseConnection();
+//        db.executeSQLCommand("UPDATE Student SET  name = "+ name + ", description = " + description + ", costs = " + costs ", location = " + location + ", coach = " + coach + ",  supervisor = " + supervisor + ", maxNrStudents = "+ maxNrStudents + " Where ID = " + id)" 
+
     }
 
     public boolean equals(Object o) {

@@ -12,7 +12,11 @@ public class convert
                 String[] zeile = line.split(",");
                 String outputline = new String();
                 outputline += zeile[0].charAt(0);
-                outputline += zeile[1].charAt(0);
+
+                String[] nachnamensbestandteile= zeile[1].split(" ");
+                int nrBestandteile = nachnamensbestandteile.length;
+                outputline += nachnamensbestandteile[nrBestandteile - 1].charAt(0);
+
                 int randomPIN = (int)(Math.random()*9000)+1000;
                 outputline += randomPIN;
                 while(check.add(outputline)){
