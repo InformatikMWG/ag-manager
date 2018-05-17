@@ -26,7 +26,8 @@ public class Project_Slot
      * remove a given slot from the database
      */
     public void removeProjectSlotFromDatabase() {
-
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        db.executeSQLCommand("DELETE FROM Project_slots WHERE pid = " + pid);
     }
 
     public int getPid(){return pid;}
