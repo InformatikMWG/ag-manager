@@ -10,7 +10,7 @@
 
 \RequirePackage{iftex}
 \ifLuaTeX\else
-    \ClassError{ag-manager-credcards}{LuaLaTeX is required to compile this document.}{Please switch the LaTeX engine.}
+    \ClassError{courser-credcards}{LuaLaTeX is required to compile this document.}{Please switch the LaTeX engine.}
     \stop
 \fi
 
@@ -30,23 +30,19 @@
 \RequirePackage{url}
 
 \begin{credcardcontent}\small
-    bla blub \dots\ the content up here should be definable via some environment or macro \dots
+    Some fancy pic
 
-    \bigskip
-    \dotfill
-
-    \bigskip
+    \bigskip\bigskip
     Zugangsdaten für:\quad \fitname{\lastname}{\firstname}{10cm}, \group
     
     \begin{center}
         \framebox{\begin{tabular}{l>{\ttfamily}p{.4\textwidth}}
-            Benutzername:        & \username \\
-            Einmaliges Passwort: & \password \\[\medskipamount]
-            mein neues Passwort: & \dotfill
+            Benutzername:   & \username \\[\medskipamount]
+            Mein Passwort:  & \dotfill
         \end{tabular}}
     \end{center}
     
     \scriptsize
-    Sie können sich mit dem oben angegebenen Benutzernamen und Einmal-Passwort unter \url{http://foo.example.org/bar} anmelden. \\
-    Nach erfolgreicher Anmeldung müssen Sie ein neues Passwort festlegen.
+    Sie können sich mit dem oben angegebenen Benutzernamen unter \url{http://foo.example.org/bar} anmelden. \\
+    Nach erfolgreicher Anmeldung müssen Sie ein neues Passwort festlegen, dass Sie oben notieren können.
 \end{credcardcontent}
