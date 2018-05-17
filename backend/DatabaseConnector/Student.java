@@ -89,6 +89,34 @@ public class Student implements Comparable<Student>
         return (classname + ", " + last_name + ", " + first_name);
     }
 
+    public ArrayList<Project> getAvailableProjects() {
+        String sqlCommand = "SELECT * FROM Projects WHERE id =(SELECT pid FROM Filters WHERE (gid = (SELECT gid FROM Student_in_Group WHERE sid="+ id +") AND (NOT isBlacklist OR isBlacklist is NULL)) AND (NOT gid = (SELECT gid FROM Student_in_Group WHERE sid="+id+") AND isBlacklist));";
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        ResultSet resultSet = db.executeSQLCommand(sqlCommand);
+        ArrayList<Project> projects = new ArrayList<Project>();
+
+        try {
+            while(resultSet.next()) {
+                int    id            = resultSet.getInt("id"              );
+                String name          = resultSet.getString("name"         );
+                String description   = resultSet.getString("description"  );
+                String costs         = resultSet.getString("costs"        );
+                String location      = resultSet.getString("location"     );
+                String coach         = resultSet.getString("coach"        );
+                String supervisor    = resultSet.getString("supervisor"   );
+                String maxNrStudents = resultSet.getString("maxNrStudents");
+
+                Project p = new Project(id, name, description, costs, location, coach, supervisor, Integer.parseInt(maxNrStudents));
+
+                projects.add(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return projects;
+    }
+
     public ArrayList<Project> getProjects() {
         String sqlCommand = "SELECT * FROM Projects WHERE id = (SELECT pid FROM Student_in_Project WHERE sid = '" + id + "' ) ;";
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
@@ -136,8 +164,8 @@ public class Student implements Comparable<Student>
     }
 
     public void updateStudentInDatabase() {
- //       DatabaseConnection db = new DatabaseConnection();
-//        db.executeSQLCommand("UPDATE Student SET  name = "+ name + ", description = " + description + ", costs = " + costs ", location = " + location + ", coach = " + coach + ",  supervisor = " + supervisor + ", maxNrStudents = "+ maxNrStudents + " Where ID = " + id)" 
+        //       DatabaseConnection db = new DatabaseConnection();
+        //        db.executeSQLCommand("UPDATE Student SET  name = "+ name + ", description = " + description + ", costs = " + costs ", location = " + location + ", coach = " + coach + ",  supervisor = " + supervisor + ", maxNrStudents = "+ maxNrStudents + " Where ID = " + id)" 
 
     }
 
