@@ -100,11 +100,11 @@ public class Project {
 
         try {
             while(resultSet1.next()) {
-                String pid = resultSet1.getString("pid");
-                String date = resultSet1.getString("date");
+                int    pid         = resultSet1.getInt("pid");
+                String date        = resultSet1.getString("date");
                 String time_start  = resultSet1.getString("time_start " );
-                String time_end = resultSet1.getString("time_end" );
-                Project_Slot ps = new Project_Slot(Integer.parseInt(pid),date,time_start,time_end);
+                String time_end    = resultSet1.getString("time_end" );
+                Project_Slot ps = new Project_Slot(pid,date,time_start,time_end);
                 project_slots.add(ps);
             }
         } catch (Exception e) {
@@ -154,13 +154,27 @@ public class Project {
      * write current values to database
      */
     public void updateProjectInDatabase() {
-
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        String    sqlCommand = "UPDATE Projects SET name = '" + name + "', description ='" + description + "', costs = '" + costs + "', location = '" + location + "', coach = '" + coach + "', supervisor = '" + supervisor + "', maxNrStudents = '" + maxNrStudents + "' WHERE id = '"+ id +"'" ;
+        db.executeSQLCommand(sqlCommand);
     }
 
     /**
      * add project to database
      */
     public void createProjectInDatabase() {
+        DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
+        String    sqlCommand = "INSERT INTO Projects (name, description, costs, location, coach, supervisor, maxNrStudents) VALUES ('" + name + "', '" + description + "', '" + costs + "', '" + location + "', '" + coach + "', '" + supervisor + "', '" + maxNrStudents + "')" ;
+        db.executeSQLCommand(sqlCommand);
+        sqlCommand = "SELECT id FROM Projects WHERE name = '" + name + "' AND description ='" + description + "'AND costs = '" + costs + "' AND location = '" + location + "' AND coach = '" + coach + "'AND supervisor = '" + supervisor + "'AND maxNrStudents = '" + maxNrStudents + "'";
+        ResultSet resultSet = db.executeSQLCommand(sqlCommand);
+        try {
+            while(resultSet.next()){
+                this.id = resultSet.getInt("id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -171,7 +185,7 @@ public class Project {
         DatabaseConnection db = DatabaseConnection.getDatabaseConnection();
         
 
-        String    sqlCommand = "Delete FROM Projects WHERE id =" + id + ";" ;
+        String    sqlCommand = "DELETE FROM Projects WHERE id =" + id + ";" ;
         ResultSet resultSet = db.executeSQLCommand(sqlCommand);
     }
 

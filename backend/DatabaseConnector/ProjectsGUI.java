@@ -13,10 +13,15 @@ public class ProjectsGUI extends JFrame
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        add(new ProjectPanel(1));
-        pack();
-        setVisible(true);
-        
+        BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
+
+        setLayout(boxLayout);
+
+        for(Project p : Organizer.getAllProjects()) {
+            add(new ProjectPanel(p));
+            pack();
+            setVisible(true);
+        }
 
     }
 }
