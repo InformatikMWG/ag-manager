@@ -18,12 +18,12 @@
 \RequirePackage{graphbox}
 \RequirePackage{longtable}
 \RequirePackage{pgfkeys}
+\RequirePackage{setspace}
 
 \PassOptionsToPackage{table}{xcolor}
 \RequirePackage{xcolor}
 
 
-\PassOptionsToPackage{lastnamefirst, lastnamefont=sc}{fitnames}
 \RequirePackage{fitnames}
 
 \RequirePackage{fontspec}
@@ -79,6 +79,9 @@
 \newcount\listindex
 \newcount\lastrowodd
 
+\newsavebox{\courserreg@pnumbox}
+\newlength{\courserreg@pnameboxwd}
+
 \def\arraystretch{1.3}
 
 \parindent0pt
@@ -121,32 +124,38 @@
 
 \def\courserreg@pnr{N/A}
 \def\courserreg@ptitle{N/A}
+\def\courserreg@pprov{N/A}
 \def\courserreg@pdescr{\textup{N/A}}
 \def\courserreg@datetime{N/A}
 \def\courserreg@location{N/A}
 \def\courserreg@participants{N/A}
 \def\courserreg@maxparticipants{N/A}
 \def\courserreg@attfee{N/A}
+\let\courserreg@supervisor\@empty
 
 
 
 \pgfkeys{%
     /courserproj/projnr/.cd, .value required,
-        .code={\def\courserreg@pnr{#1}},
+        .store in=\courserreg@pnr,
     /courserproj/title/.cd, .value required,
-        .code={\def\courserreg@ptitle{#1}},
+        .store in=\courserreg@ptitle,
+    /courserproj/provider/.cd, .value required,
+        .store in=\courserreg@pprov,
     /courserproj/descr/.cd, .value required,
-        .code={\def\courserreg@pdescr{#1}},
+        .store in=\courserreg@pdescr,
     /courserproj/datetime/.cd, .value required,
-        .code={\def\courserreg@datetime{#1}},
+        .store in=\courserreg@datetime,
     /courserproj/location/.cd, .value required,
-        .code={\def\courserreg@location{#1}},
+        .store in=\courserreg@location,
     /courserproj/participants/.cd, .value required,
-        .code={\def\courserreg@participants{#1}},
+        .store in=\courserreg@participants,
     /courserproj/maxparticipants/.cd, .value required,
-        .code={\def\courserreg@maxparticipants{#1}},
+        .store in=\courserreg@maxparticipants,
     /courserproj/attfee/.cd, .value required,
-        .code={\def\courserreg@attfee{#1}},
+        .store in=\courserreg@attfee,
+    /courserproj/supervisor/.cd, .value required,
+        .store in=\courserreg@supervisor,
 }
 
 
@@ -154,32 +163,45 @@
     \clearpage%
     \pgfkeys{/courserproj/.cd, #1}
     
+    \fitnamesconfig{lastnamefirst=false, lastnamefont=sc, firstname=firstletter}
     \begin{minipage}[t]{.825\linewidth}
         \phantomsection%
-        \textbf{\LARGE\scshape\courserreg@pnr.~~\courserreg@ptitle}
+        \sbox{\courserreg@pnumbox}{\textbf{\LARGE\scshape\courserreg@pnr.~~}}%
+        \setlength{\courserreg@pnameboxwd}{.95\linewidth}%
+        \addtolength{\courserreg@pnameboxwd}{-\wd\courserreg@pnumbox}%
+        
+        
+        \usebox{\courserreg@pnumbox}%
+        \begin{minipage}[t]{\courserreg@pnameboxwd}%
+            \setstretch{1.35}\flushleft%
+            \textbf{\LARGE\scshape\courserreg@ptitle}%
+        \end{minipage}
         \addcontentsline{toc}{subsection}{\courserreg@pnr.~~\courserreg@ptitle}
         
         \smallskip
         \begin{center}
             \begin{tabular}{*{2}{cp{.4\linewidth}}}
-                \faInfo      & \multicolumn{3}{p{.8\linewidth}}{\itshape\courserreg@pdescr} \\
+                \faUser         & \multicolumn{3}{p{.8\linewidth}}{\courserreg@pprov} \\
+                \faInfo         & \multicolumn{3}{p{.8\linewidth}}{\itshape\courserreg@pdescr} \\
                 %
-                \faCalendar  & \multicolumn{3}{p{.8\linewidth}}{\courserreg@datetime} \\
-                \faMapMarker & \multicolumn{3}{p{.8\linewidth}}{\courserreg@location} \\
-                \faUsers     & \courserreg@participants\quad(\courserreg@maxparticipants) &
-                \faMoney     & \courserreg@attfee \\
+                \faCalendar     & \multicolumn{3}{p{.8\linewidth}}{\courserreg@datetime} \\
+                \faMapMarker    & \multicolumn{3}{p{.8\linewidth}}{\courserreg@location} \\
+                \faUsers        & \courserreg@participants\quad(\courserreg@maxparticipants) &
+                \faMoney        & \courserreg@attfee \\
+                \ifx\courserreg@supervisor\@empty\else%
+                  \faBinoculars & \multicolumn{3}{p{.8\linewidth}}{\courserreg@supervisor}
+                \fi%
             \end{tabular}
         \end{center}
-
-        
     \end{minipage}
     \begin{minipage}[t]{.175\linewidth}
         \includegraphics[align=t, width=\linewidth]{mwglogo}
     \end{minipage}
     
     
-    \global\listindex=0\relax
-    \global\lastrowodd=0\relax
+    \global\listindex=0\relax%
+    \global\lastrowodd=0\relax%
+    \fitnamesconfig{lastnamefirst, lastnamefont=sc, firstname=full}%
     \longtable{|>{\hfill}p{.05\textwidth}|p{.9\textwidth}|}%
         \hline%
         \rowcolor{MWGRed}
@@ -193,13 +215,4 @@
         %
 }{%
     \endlongtable%
-    \pgfkeys{%
-        /courserproj/.cd,
-        projnr={},
-        title={}
-        descr={},
-        datetime={},
-        location={},
-        attfee={},
-    }%
 }
