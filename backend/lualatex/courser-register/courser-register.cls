@@ -17,6 +17,7 @@
 \RequirePackage{graphicx}
 \RequirePackage{graphbox}
 \RequirePackage{longtable}
+\RequirePackage{pgfkeys}
 
 \PassOptionsToPackage{table}{xcolor}
 \RequirePackage{xcolor}
@@ -40,7 +41,9 @@
 \PassOptionsToPackage{german}{selnolig}
 \RequirePackage{selnolig}
 
-\RequirePackage{url}
+
+\PassOptionsToPackage{pdfborder={0 0 0}, unicode}{hyperref}
+\RequirePackage{hyperref}
 
 
 \pagestyle{scrheadings}
@@ -49,8 +52,8 @@
 % \ifoot{}
 \cfoot{}
 % \chead{}
-\ohead{\thepage}
-\ofoot{\timestamp}
+\ifoot{\timestamp}
+\ofoot{\thepage}
 
 
 
@@ -83,13 +86,22 @@
 \definecolor{MWGRed}{RGB}{100,29,27}
 
 
-% \AtBeginDocument{%
-%     \thispagestyle{empty}
-%     Some fancy general information \& advertizing stuff
-%     \clearpage
-%     \setcounter{page}{1}}
+\AtBeginDocument{%
+    \hypersetup{pdfcreator={Courser LuaLaTeX Output (\timestamp)}}
+    \thispagestyle{empty}
+    \pagenumbering{Roman}
+    \begin{center}
+        Courser Output \\
+        Generated: \timestamp
+    \end{center}
     
-    
+    \def\contentsname{Index}
+    \tableofcontents
+    \clearpage
+    \pagenumbering{arabic}
+    \setcounter{page}{1}}
+
+
 \def\regentry#1#2#3{%
     % check wheter the previous row was odd (1 = true, 0 = false)
     % We have to check here because using \relax (which is necessary for calculation)
@@ -107,31 +119,55 @@
     \the\listindex & \fitname{#1}{#2}{.8\textwidth} (#3) \\\hline}
 
 
-\def\courserreg@pdescr{A Quite Short Project Description}
-\def\courserreg@datetime{St. Nimmerleins-Tag 2048, 12:00-15:00}
-\def\courserreg@pnr{42}
-\def\courserreg@ptitle{Project Title}
-\def\courserreg@attfee{1,00 €}
+\def\courserreg@pnr{N/A}
+\def\courserreg@ptitle{N/A}
+\def\courserreg@pdescr{\textup{N/A}}
+\def\courserreg@datetime{N/A}
+\def\courserreg@location{N/A}
+\def\courserreg@participants{N/A}
+\def\courserreg@maxparticipants{N/A}
+\def\courserreg@attfee{N/A}
 
 
 
+\pgfkeys{%
+    /courserproj/projnr/.cd, .value required,
+        .code={\def\courserreg@pnr{#1}},
+    /courserproj/title/.cd, .value required,
+        .code={\def\courserreg@ptitle{#1}},
+    /courserproj/descr/.cd, .value required,
+        .code={\def\courserreg@pdescr{#1}},
+    /courserproj/datetime/.cd, .value required,
+        .code={\def\courserreg@datetime{#1}},
+    /courserproj/location/.cd, .value required,
+        .code={\def\courserreg@location{#1}},
+    /courserproj/participants/.cd, .value required,
+        .code={\def\courserreg@participants{#1}},
+    /courserproj/maxparticipants/.cd, .value required,
+        .code={\def\courserreg@maxparticipants{#1}},
+    /courserproj/attfee/.cd, .value required,
+        .code={\def\courserreg@attfee{#1}},
+}
 
 
-\newenvironment{register}{%
+\newenvironment{register}[1]{%
     \clearpage%
-%     \dotfill
+    \pgfkeys{/courserproj/.cd, #1}
     
     \begin{minipage}[t]{.825\linewidth}
-        \textbf{\LARGE\scshape\courserreg@pnr.~~\courserreg@ptitle} \\
-        %
+        \phantomsection%
+        \textbf{\LARGE\scshape\courserreg@pnr.~~\courserreg@ptitle}
+        \addcontentsline{toc}{subsection}{\courserreg@pnr.~~\courserreg@ptitle}
+        
+        \smallskip
         \begin{center}
-            \begin{tabular}{*{3}{cp{.225\linewidth}}}
-                \faInfo      & \multicolumn{5}{p{.8\linewidth}}{\itshape\courserreg@pdescr} \\[\bigskipamount]
+            \begin{tabular}{*{2}{cp{.4\linewidth}}}
+                \faInfo      & \multicolumn{3}{p{.8\linewidth}}{\itshape\courserreg@pdescr} \\
                 %
-                \faCalendar  & \multicolumn{5}{p{.8\linewidth}}{\courserreg@datetime} \\
-                \faUsers     & 21~~(42)           &
-                \faMoney     & \courserreg@attfee &
-                \faMapMarker & r215 \\
+                \faCalendar  & \multicolumn{3}{p{.8\linewidth}}{\courserreg@datetime} \\
+                \faMapMarker & \multicolumn{3}{p{.8\linewidth}}{\courserreg@location} \\
+                \faUsers     & \courserreg@participants\quad(\courserreg@maxparticipants) &
+                \faMoney     & \courserreg@attfee \\
             \end{tabular}
         \end{center}
 
@@ -147,14 +183,23 @@
     \longtable{|>{\hfill}p{.05\textwidth}|p{.9\textwidth}|}%
         \hline%
         \rowcolor{MWGRed}
-        \color{white}\textbf{Nr.} & \color{white}\textbf{Name} \\\hline\hline\hline\hline%
+        \color{white}\textbf{Nr.} & \color{white}\textbf{Name} \\\hline\hline\hline%
         \endfirsthead%
         %
         \multicolumn{2}{r}{\footnotesize\textit{(continued)}} \\\hline%
         \rowcolor{MWGRed}
-        \color{white}\textbf{Nr.} & \color{white}\textbf{Name} \\\hline\hline\hline\hline%
+        \color{white}\textbf{Nr.} & \color{white}\textbf{Name} \\\hline\hline\hline%
         \endhead%
         %
 }{%
     \endlongtable%
+    \pgfkeys{%
+        /courserproj/.cd,
+        projnr={},
+        title={}
+        descr={},
+        datetime={},
+        location={},
+        attfee={},
+    }%
 }
