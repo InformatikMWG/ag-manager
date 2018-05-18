@@ -37,7 +37,7 @@
     
     \begin{center}
         \framebox{\begin{tabular}{l>{\ttfamily}p{.4\textwidth}}
-            Benutzername:   & \username \\[\medskipamount]
+            Benutzername:   & \username \\[\bigskipamount]
             Mein Passwort:  & \dotfill
         \end{tabular}}
     \end{center}
