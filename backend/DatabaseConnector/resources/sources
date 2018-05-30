@@ -1,5 +1,13 @@
-Public Domain
+Icons taken from the Tango Icon Theme, which has been released into Public Domain:
 
-https://openclipart.org/image/300px/svg_to_png/24502/Anonymous-Floppy-disk-icon.png
-https://openclipart.org/image/300px/svg_to_png/237987/edit26.png
-https://openclipart.org/image/300px/svg_to_png/237987/edit26.png
+http://tango.freedesktop.org/Tango_Icon_Library
+
+Cancel Icon:        actions/process-stop
+Edit Icon:          apps/accessories-text-editor
+Save Icon:          actions/document-save
+
+
+
+The SVG files have been converted to 64x64px PNGs using Inkscape:
+
+inkscape  -e <PNG file name>   -w 64  -h 64  <SVG file name>
