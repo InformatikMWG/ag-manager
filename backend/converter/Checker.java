@@ -14,7 +14,7 @@ public class Checker
         if(speicher.contains(a)){
             return true;
         }
-        speicher+=",";
+        speicher+="\t";
         speicher+=a;
         return false;
     }

@@ -1,15 +1,15 @@
 import java.io.*;
-public class convert
-{
+
+public class convert {
     public static void con(String path){
-        try{
+        try {
             FileReader reading = new FileReader(path);
             BufferedReader read = new BufferedReader(reading);
             PrintWriter writeout = new PrintWriter("output.csv","UTF-8");
             Checker check = new Checker();
             while(true){
                 String line= read.readLine();
-                String[] zeile = line.split(",");
+                String[] zeile = line.split("\t");// \t represents a tabstopp
                 String outputline = new String();
                 outputline += zeile[0].charAt(0);
 
@@ -19,6 +19,7 @@ public class convert
 
                 int randomPIN = (int)(Math.random()*9000)+1000;
                 outputline += randomPIN;
+                
                 while(check.add(outputline)){
                     outputline = new String();
                     outputline += zeile[0].charAt(0);
@@ -26,7 +27,7 @@ public class convert
                     randomPIN = (int)(Math.random()*9000)+1000;
                     outputline += randomPIN;
                 }
-                line+=",";
+                line+="\t";
                 line+=outputline;
                 writeout.println(line);
                 writeout.flush();
