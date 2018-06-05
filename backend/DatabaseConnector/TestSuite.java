@@ -25,7 +25,7 @@ public class TestSuite
             while((s = br.readLine()) != null)
             {
                 s.trim();
-                String[] values = s.split(",");
+                String[] values = s.split("\t"); // \t equals a tabstopp
                 statement.setString(1, values[3]);
                 statement.setString(2, values[0]);
                 statement.setString(3, values[1]);
@@ -56,7 +56,7 @@ public class TestSuite
             while ((s = br.readLine()) != null)
             {
                 s.trim();
-                String[] values = s.split(",");
+                String[] values = s.split("\t");
                 statement.setString(1, values[0]);
                 statement.setString(2, values[1]);
                 statement.setString(3, values[2]);
