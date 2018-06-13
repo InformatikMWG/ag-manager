@@ -8,7 +8,6 @@ public class TestSuite
 
     public static void resetDatabase() {
         db.executeSQLFile("resetDatabase.sql");         
-        db.executeSQLFile("addGroups.sql"); 
     } 
 
     private static void insertMockupDataStudents() {
@@ -87,6 +86,7 @@ public class TestSuite
     } 
 
     private static void insertMockupGroups() {
+        db.executeSQLFile("mockupData/addGroups.sql"); 
     } 
 
     private static void insertMockupFilters() {
@@ -96,8 +96,9 @@ public class TestSuite
         resetDatabase();
         insertMockupDataStudents();        
         insertMockupDataProjects();
-        insertMockupStudentInProjekt();
         insertMockupProjectSlots();
+        insertMockupStudentInProjekt();
+        insertMockupGroups();
     } 
 
     public static void showAllStudents() {

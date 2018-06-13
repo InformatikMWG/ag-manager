@@ -12,3 +12,5 @@ VALUES
 ('Mittelstufe','Mittelstufe'),
 ('Unterstufe','Unterstufe'),
 ('CafeBlu','Café blu');
+('Alle','Alle');
+
