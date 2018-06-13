@@ -82,11 +82,59 @@ public class TestSuite
         db.executeSQLFile("mockupData/Project_slots_mockupdata.sql");         
     }
 
-    private static void insertMockupStudentInGroup() {
+    private static void insertMockupStudentInGroup() { 
+
+        String insertInto = "INSERT INTO Student_in_Group (sid, gid) VALUES (?,?)";
+        Connection connection = db.getOpenConnection();
+
+        String sqlCommand = "SELECT * FROM Students;";
+        ResultSet resultSet = db.executeSQLCommand(sqlCommand);
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(insertInto);
+
+            while(resultSet.next()) {
+                String id = resultSet.getString("id");
+                statement.setString(1, id);
+                statement.setString(2, "Alle");
+                statement.addBatch();
+
+            }
+            statement.executeBatch();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        insertInto = "INSERT INTO Student_in_Group (sid, gid) VALUES (?,?)";
+
+        
+        for(int i = 5; i < 10; i++) {
+            sqlCommand = "SELECT * FROM Students WHERE classname LIKE '" + i + "%';";
+            resultSet = db.executeSQLCommand(sqlCommand);
+
+            try {
+                PreparedStatement statement = connection.prepareStatement(insertInto);
+
+                while(resultSet.next()) {
+                    String id = resultSet.getString("id");
+                    statement.setString(1, id);
+                    statement.setString(2, "K0" + i);
+                    System.out.println(statement.toString());
+                    statement.addBatch();
+
+                }
+                statement.executeBatch();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     } 
 
     private static void insertMockupGroups() {
         db.executeSQLFile("mockupData/addGroups.sql"); 
+
     } 
 
     private static void insertMockupFilters() {
@@ -99,6 +147,7 @@ public class TestSuite
         insertMockupProjectSlots();
         insertMockupStudentInProjekt();
         insertMockupGroups();
+        insertMockupStudentInGroup();
     } 
 
     public static void showAllStudents() {
