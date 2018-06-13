@@ -108,7 +108,6 @@ public class TestSuite
 
         insertInto = "INSERT INTO Student_in_Group (sid, gid) VALUES (?,?)";
 
-        
         for(int i = 5; i < 10; i++) {
             sqlCommand = "SELECT * FROM Students WHERE classname LIKE '" + i + "%';";
             resultSet = db.executeSQLCommand(sqlCommand);
@@ -138,7 +137,33 @@ public class TestSuite
     } 
 
     private static void insertMockupFilters() {
-    } 
+
+        String insertInto = "INSERT INTO Filters (pid, gid) VALUES (?,?)";
+        Connection connection = db.getOpenConnection();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(insertInto);
+
+            for(int i = 1; i <= 5; i++) {
+                statement.setInt(1, i);
+                statement.setString(2, "Alle");
+                statement.addBatch();
+            }
+            for(int i = 6; i <= 8; i++) {
+                statement.setInt(1, i);
+                statement.setString(2, "K05");
+                statement.addBatch();
+            }
+            for(int i = 8; i <= 10; i++) {
+                statement.setInt(1, i);
+                statement.setString(2, "K06");
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void setupMockupDatabase() {
         resetDatabase();
@@ -148,6 +173,7 @@ public class TestSuite
         insertMockupStudentInProjekt();
         insertMockupGroups();
         insertMockupStudentInGroup();
+        insertMockupFilters();
     } 
 
     public static void showAllStudents() {
