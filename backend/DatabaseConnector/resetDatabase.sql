@@ -12,7 +12,8 @@ CREATE TABLE Students (
   first_name VARCHAR(255),
   last_name  VARCHAR(255),
   password   VARCHAR(255),
-  classname  VARCHAR(255)
+  classname  VARCHAR(255),
+  salt       VARCHAR(255)
 ) ENGINE=InnoDB;
 
 CREATE TABLE Projects (
